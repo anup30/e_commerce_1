@@ -25,7 +25,16 @@ class _CraftyBayState extends State<CraftyBay> {
         ),
         textTheme: _textTheme(),
         inputDecorationTheme: _inputDecorationTheme(),
-        elevatedButtonTheme: ElevatedButtonThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.primaryColor,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData( // extract -----------------
           style: ElevatedButton.styleFrom(
             //maximumSize: ,
             //minimumSize: ,

@@ -90,7 +90,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
   Widget _buildPinField(){ // method extraction, didn't use getter, cos may need to pass context in future.
     return PinCodeTextField(
-      autoDisposeControllers: false,
+      autoDisposeControllers: false, //-----------------------------------------
       obscureText: false,
       animationType: AnimationType.fade,
       keyboardType: TextInputType.number,
@@ -112,7 +112,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
   @override
   void dispose() {
-    _otpTEController.dispose();
+    _otpTEController.dispose(); //--------------------------------------------
     super.dispose();
   }
 }
