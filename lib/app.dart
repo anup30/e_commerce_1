@@ -1,3 +1,4 @@
+import 'package:e_commerce_1/controller_binder.dart';
 import 'package:e_commerce_1/presentation/screens/splash_screen.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,9 @@ class CraftyBay extends StatefulWidget {
 class _CraftyBayState extends State<CraftyBay> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return GetMaterialApp( // -----------------------------
       home: const SplashScreen(),
+      initialBinding: ControllerBinder(), //-----------------------
       theme: ThemeData(
         useMaterial3: true,
         //primaryColor: Colors.red, // cos colorSchemeSeed used

@@ -1,4 +1,3 @@
-import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/utility/assets_path.dart';
 import 'package:e_commerce_1/presentation/widgets/app_bar_icon_button.dart';
 import 'package:e_commerce_1/presentation/widgets/category_item.dart';
@@ -31,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container( // ---> not needed
                 //width: 200,
                 width: MediaQuery.of(context).size.width,
-                color: Colors.grey[300],
+                color: Colors.grey[100],
                 child: const HomeCarouselSlider(),
               ),
               const SizedBox(height: 16,),
@@ -40,11 +39,35 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildCategoryListView(),
               const SizedBox(height: 8,),
               SectionHeader(title: 'Popular', onTapSeeAll: () {},),
-              const SizedBox(height: 10,),
-              const ProductCard(), // ------------------------------>  do refactor inside this widget body!
+              //const SizedBox(height: 10,),
+              _buildProductListView(),
+              const SizedBox(height: 8,),
+              SectionHeader(title: 'Special', onTapSeeAll: () {},),
+              //const SizedBox(height: 10,),
+              _buildProductListView(),
+              const SizedBox(height: 8,),
+              SectionHeader(title: 'New', onTapSeeAll: () {},),
+              //const SizedBox(height: 10,),
+              _buildProductListView(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildProductListView() {
+    return SizedBox(
+      height: 210,
+      child: ListView.separated(
+        itemCount: 8,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return const ProductCard();
+        },
+        separatorBuilder: (context, index) {
+          return const SizedBox( width: 8,);
+        },
       ),
     );
   }
@@ -107,4 +130,4 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 }
-
+//at 27:30
