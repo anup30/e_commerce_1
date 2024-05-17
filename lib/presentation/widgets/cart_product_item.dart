@@ -92,6 +92,7 @@ class _CartProductItemState extends State<CartProductItem> {
       maxValue: 20,
       decimalPlaces: 0,
       color: AppColors.primaryColor,
+      //textStyle: TextStyle(color: Colors.white),
       onChanged: (value) {
         print(value);
         _counterValue = value as int;

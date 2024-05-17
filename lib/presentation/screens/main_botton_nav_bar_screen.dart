@@ -35,6 +35,7 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
       bottomNavigationBar: GetBuilder<MainBottomNavBarController>(
         builder: (_){
           return BottomNavigationBar(
+            elevation: 3,
             type: BottomNavigationBarType.fixed,
             currentIndex: _navBarController.selectedIndex,
             //onTap: (index){_navBarController.changeIndex(index); },
@@ -42,7 +43,6 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
             selectedItemColor: AppColors.primaryColor,
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,
-
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: 'Home'),
               BottomNavigationBarItem(icon: Icon(Icons.dashboard),label: 'Category'),
