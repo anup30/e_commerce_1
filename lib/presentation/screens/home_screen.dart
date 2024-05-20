@@ -1,11 +1,14 @@
+import 'package:e_commerce_1/presentation/state_holders/home_slider_controller.dart';
 import 'package:e_commerce_1/presentation/utility/assets_path.dart';
 import 'package:e_commerce_1/presentation/widgets/app_bar_icon_button.dart';
 import 'package:e_commerce_1/presentation/widgets/category_item.dart';
+import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';
 import 'package:e_commerce_1/presentation/widgets/home_carousel_slider.dart';
 import 'package:e_commerce_1/presentation/widgets/product_card.dart';
 import 'package:e_commerce_1/presentation/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _searchTEController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +31,21 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               _buildSearchTextField(),
               const SizedBox(height: 16,),
-              Container( // ---> not needed
+              Container( // ---> not needed ?
                 //width: 200,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.grey[100],
-                child: const HomeCarouselSlider(),
+                child: GetBuilder<HomeSliderController>( //------------
+                  builder: (sliderController) {
+                    if(sliderController.inProgress){
+                      return const SizedBox(
+                        height: 150, // ---------- adjust height
+                          child: CenteredCircularProgressIndicator(),
+                      );
+                    }
+                    return HomeCarouselSlider(sliderList: sliderController.sliderList);
+                  }
+                ),
               ),
               const SizedBox(height: 16,),
               SectionHeader(title: 'All categories', onTapSeeAll: () {},),
