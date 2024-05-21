@@ -31,16 +31,16 @@ class SliderData {
     price = json['price']; //---------------------
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['short_des'] = shortDes;
-    data['image'] = image;
-    data['product_id'] = productId;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['price'] = price; //-----------------------------
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = <String, dynamic>{};
+  //   data['id'] = id;
+  //   data['title'] = title;
+  //   data['short_des'] = shortDes;
+  //   data['image'] = image;
+  //   data['product_id'] = productId;
+  //   data['created_at'] = createdAt;
+  //   data['updated_at'] = updatedAt;
+  //   data['price'] = price; //-----------------------------
+  //   return data;
+  // }
 }

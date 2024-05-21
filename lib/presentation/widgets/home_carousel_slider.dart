@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_1/data/models/slider_data.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
+import 'package:e_commerce_1/presentation/widgets/network_image_widget.dart';
 import 'package:flutter/material.dart';
+
 
 class HomeCarouselSlider extends StatefulWidget {
   const HomeCarouselSlider({
@@ -29,27 +31,84 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
   Widget _buildCarouselSlider() { /// CarouselSlider, return type
     return CarouselSlider(
       options: CarouselOptions(
-          height: 150,
+          height: 180, // 150 -----------------------------
           viewportFraction: 1,  // 0.5
           onPageChanged: (index, _){
             _selectedPageIndex.value = index;
           }),
-      items: widget.sliderList.map((i) {
+      items: widget.sliderList.map((slider) { // ---> here map is expensive ?
         return Builder(
           builder: (BuildContext context) {
             return Container(
                 width: MediaQuery.of(context).size.width,
+                //height: 260, //----------------
                 margin: const EdgeInsets.symmetric(horizontal: 5),
                 decoration: BoxDecoration(
                   color: AppColors.primaryColor.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 alignment: Alignment.center,
-                child: Text('text $i', style: const TextStyle(fontSize: 24),)
+                child: Stack(
+                  children: [
+                    ClipRRect( // ----------------------------------
+                      borderRadius: BorderRadius.circular(8),
+                      child: NetworkImageWidget(
+                        url: slider.image ?? "",
+                        width: double.maxFinite,
+                        height: double.maxFinite,
+                        boxFit: BoxFit.cover,
+                      ),
+                    ),
+                    _buildProductDescription(slider),
+                  ],
+                ),
             );
           },
         );
       }).toList(),
+    );
+  }
+
+  Widget _buildProductDescription(SliderData slider) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            slider.title ?? '',
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            slider.shortDes ?? '',
+            maxLines: 3,
+            style: const TextStyle(
+              color: Colors.black,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          SizedBox(
+            width: 100,
+            child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppColors.primaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+                child: const Text('Buy now')),
+          ),
+        ],
+      ),
     );
   }
 
@@ -80,5 +139,4 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
     );
   }
 }
-//at 49:00
 // done without setState (use as less as possible) ----------------------------------------------------------

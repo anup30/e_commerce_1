@@ -1,4 +1,7 @@
+import 'package:e_commerce_1/data/models/category.dart';
+import 'package:e_commerce_1/presentation/state_holders/category_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/home_slider_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/main_bottom_nav_bar_controller.dart';
 import 'package:e_commerce_1/presentation/utility/assets_path.dart';
 import 'package:e_commerce_1/presentation/widgets/app_bar_icon_button.dart';
 import 'package:e_commerce_1/presentation/widgets/category_item.dart';
@@ -33,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16,),
               Container( // ---> not needed ?
                 //width: 200,
+                //height: 200, //-----------------------------------
                 width: MediaQuery.of(context).size.width,
                 color: Colors.grey[100],
                 child: GetBuilder<HomeSliderController>( //------------
@@ -48,9 +52,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 16,),
-              SectionHeader(title: 'All categories', onTapSeeAll: () {},),
+              SectionHeader(title: 'All categories', onTapSeeAll: () {
+                Get.find<MainBottomNavBarController>().selectCategory();
+              },),
               const SizedBox(height: 10,),
-              _buildCategoryListView(),
+              GetBuilder<CategoryListController>(
+                builder: (categoryListController) {
+                  if(categoryListController.inProgress){
+                    return const SizedBox(
+                      height: 120, // ---------- adjust height
+                      child: CenteredCircularProgressIndicator(),
+                    );
+                  }
+                  return _buildCategoryListView(categoryListController.categoryList);
+                }
+              ),
               const SizedBox(height: 8,),
               SectionHeader(title: 'Popular', onTapSeeAll: () {},),
               //const SizedBox(height: 10,),
@@ -86,14 +102,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCategoryListView() {
+  Widget _buildCategoryListView(List<Category> categoryList) {
     return SizedBox(
               height: 120,
               child: ListView.separated(
-                itemCount: 8,
+                itemCount: categoryList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return const CategoryItem();
+                  return CategoryItem(category: categoryList[index],);
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox( width: 16,);

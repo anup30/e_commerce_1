@@ -1,5 +1,7 @@
+import 'package:e_commerce_1/presentation/state_holders/category_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/main_bottom_nav_bar_controller.dart';
 import 'package:e_commerce_1/presentation/widgets/category_item.dart';
+import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,28 +30,32 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           ),
           title: const Text('category list screen: Categories'),
         ),
-        body: GridView.builder(
-          itemCount: 10,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-              //crossAxisSpacing: ,
-              //mainAxisSpacing: ,
-              //mainAxisExtent: ,
-              childAspectRatio: 0.72, // The ratio of the cross-axis to the main-axis extent of each child. // space for vertical -------------
-            ),
-            itemBuilder: (context,index){
-              return const Padding(
-                padding: EdgeInsets.all(8),
-                  child: FittedBox( // fit in this space ------------------------ if overflows
-                      child: CategoryItem(),
+        body: GetBuilder<CategoryListController>(
+          builder: (categoryListController) {
+            if(categoryListController.inProgress){
+              return const CenteredCircularProgressIndicator();
+            }
+            //at 33:00 --------------------------------------------------------------------------
+            return RefreshIndicator(
+              onRefresh: categoryListController.getCategoryList,
+              child: GridView.builder(
+                itemCount: categoryListController.categoryList.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                    //crossAxisSpacing: ,//mainAxisSpacing: ,//mainAxisExtent: ,
+                    childAspectRatio: 0.72, // The ratio of the cross-axis to the main-axis extent of each child. // space for vertical -------------
                   ),
-              );
-            },
+                  itemBuilder: (context,index){
+                    return Padding(
+                      padding: const EdgeInsets.all(8),
+                        child: CategoryItem(category: categoryListController.categoryList[index],),
+                    );
+                  },
+              ),
+            );
+          }
         ),
       ),
     );
   }
 }
-
-
-// at 48:00
