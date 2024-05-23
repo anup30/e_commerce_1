@@ -18,7 +18,7 @@ class CategoryItem extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: (){
-            Get.to(()=> ProductListScreen(categoryName: category.categoryName ?? '',));
+            Get.to(()=> ProductListScreen(categoryName: category.categoryName ?? '', categoryId: category.id!,));
           },
           child: Container(
             padding: const EdgeInsets.all(16),

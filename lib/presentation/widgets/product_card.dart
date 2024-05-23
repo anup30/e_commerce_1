@@ -1,16 +1,18 @@
 // refactor this widget
+import 'package:e_commerce_1/data/models/product.dart';
 import 'package:e_commerce_1/presentation/screens/product_details_screen.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
-import 'package:e_commerce_1/presentation/utility/assets_path.dart';
 import 'package:e_commerce_1/presentation/widgets/wish_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
   final bool showAddToWishList;
+  final Product product;
   const ProductCard({
-    super.key, this.showAddToWishList=true,
+    super.key,
+    this.showAddToWishList=true,
+    required this.product,
   });
 
   @override
@@ -41,19 +43,20 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: SvgPicture.asset(AssetsPath.shoeSvg,),
+                  padding: const EdgeInsets.all(0),
+                  //child: Image.network(product.image?? '',fit: BoxFit.cover,),
+                  child: Image.network(product.category?.categoryImg?? '',fit: BoxFit.cover,),
                 ),
               ),
-              const Padding( // -------------------------------> extract method ?
-                padding: EdgeInsets.all(8),
+              Padding( // -------------------------------> extract method ?
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'New Year Special Shoe 30',
+                      product.title ?? '',
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         overflow: TextOverflow.ellipsis,
                         fontSize: 13,
                         color: Colors.grey,
@@ -66,20 +69,20 @@ class ProductCard extends StatelessWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          '\$30',
-                          style: TextStyle(
+                          '\$${product.price}',
+                          style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primaryColor,
                         ),
                         ),
                         Wrap(children: [
-                          Icon(Icons.star,
+                          const Icon(Icons.star,
                             color: Colors.amber,
                             size: 20,),
-                          Text('3.4'),
+                          Text('${product.star}'),
                         ],),
-                        WishButton(),
+                        const WishButton(),
                       ],
                     ),
                   ],
@@ -92,5 +95,6 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
+
 
 

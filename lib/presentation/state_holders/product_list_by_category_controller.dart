@@ -1,6 +1,6 @@
 import 'package:e_commerce_1/data/models/network_response.dart';
 import 'package:e_commerce_1/data/models/product.dart';
-import 'package:e_commerce_1/data/models/product_list_by_category_model.dart';
+import 'package:e_commerce_1/data/models/product_list_model.dart';
 import 'package:e_commerce_1/data/network_caller/network_caller.dart';
 import 'package:e_commerce_1/data/utility/urls.dart';
 import 'package:get/get.dart';
@@ -22,7 +22,7 @@ class ProductListByCategoryController extends GetxController{ // do this without
     if(response.isSuccess){
       isSuccess =true; // myself
       _productList=
-          ProductListByCategoryModel.fromJson(response.responseData).productList ?? [];
+          ProductListModel.fromJson(response.responseData).productList ?? [];
     }else{
       _errorMessage =response.errorMessage;
     }
