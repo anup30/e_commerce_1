@@ -1,8 +1,11 @@
 import 'package:e_commerce_1/presentation/state_holders/category_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/home_slider_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/main_bottom_nav_bar_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/new_product_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/popular_product_list_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/product_details_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/product_list_by_category_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/special_product_list_controller.dart';
 import 'package:get/get.dart';
 
 class ControllerBinder extends Bindings{
@@ -14,5 +17,8 @@ class ControllerBinder extends Bindings{
     Get.put(CategoryListController());
     Get.put(ProductListByCategoryController());
     Get.put(PopularProductListController());
+    Get.put(NewProductListController());
+    Get.put(SpecialProductListController());
+    Get.put(ProductDetailsController());
   }
 }

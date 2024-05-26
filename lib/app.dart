@@ -22,6 +22,7 @@ class _CraftyBayState extends State<CraftyBay> {
       initialBinding: ControllerBinder(), //-----------------------
       theme: ThemeData(
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
         //primaryColor: Colors.red, // cos colorSchemeSeed used
         //primarySwatch: Colors.green, // off material3, then this works for C.P.I., only 1 of this and colorSchemeSeed
         colorSchemeSeed: AppColors.primaryColor,

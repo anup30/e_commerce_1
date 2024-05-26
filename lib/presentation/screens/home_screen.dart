@@ -3,7 +3,9 @@ import 'package:e_commerce_1/data/models/product.dart';
 import 'package:e_commerce_1/presentation/state_holders/category_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/home_slider_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/main_bottom_nav_bar_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/new_product_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/popular_product_list_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/special_product_list_controller.dart';
 import 'package:e_commerce_1/presentation/utility/assets_path.dart';
 import 'package:e_commerce_1/presentation/widgets/app_bar_icon_button.dart';
 import 'package:e_commerce_1/presentation/widgets/category_item.dart';
@@ -71,10 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 8,),
               SectionHeader(title: 'Popular', onTapSeeAll: () {},),
-              //const SizedBox(height: 10,),
               GetBuilder<PopularProductListController>(
                 builder: (popularProductListController) {
-                  if(popularProductListController.popularProductInProgress){
+                  if(popularProductListController.inProgress){
                     return const SizedBox(
                       height: 230, // -------------------------------------- adjust height
                       child: CenteredCircularProgressIndicator(),
@@ -85,12 +86,31 @@ class _HomeScreenState extends State<HomeScreen> {
               ), /// -------------------------------------------
               const SizedBox(height: 8,),
               SectionHeader(title: 'Special', onTapSeeAll: () {},),
-              //const SizedBox(height: 10,),
-              //_buildProductListView(),------------------------------------------------
+              GetBuilder<SpecialProductListController>(
+                  builder: (specialProductListController) {
+                    if(specialProductListController.inProgress){
+                      return const SizedBox(
+                        height: 230, // -------------------------------------- adjust height
+                        child: CenteredCircularProgressIndicator(),
+                      );
+                    }
+                    return _buildProductListView(specialProductListController.productList);
+                  }
+              ),
               const SizedBox(height: 8,),
               SectionHeader(title: 'New', onTapSeeAll: () {},),
-              //const SizedBox(height: 10,),
-              //_buildProductListView(),------------------------------------------------
+              GetBuilder<NewProductListController>(
+                  builder: (newProductListController) {
+                    if(newProductListController.inProgress){
+                      return const SizedBox(
+                        height: 230, // -------------------------------------- adjust height
+                        child: CenteredCircularProgressIndicator(),
+                      );
+                    }
+                    return _buildProductListView(newProductListController.productList);
+                  }
+              ),
+              const SizedBox(height: 8,),
             ],
           ),
         ),
@@ -99,35 +119,57 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildProductListView(List<Product> productList) {
-    return SizedBox(
-      height: 230,
-      child: ListView.separated(
-        itemCount: productList.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return ProductCard(product: productList[index],);
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox( width: 8,);
-        },
+    // return SizedBox(
+    //   height: 230,
+    //   child: ListView.separated(
+    //     itemCount: productList.length,
+    //     scrollDirection: Axis.horizontal,
+    //     itemBuilder: (context, index) {
+    //       return ProductCard(product: productList[index],);
+    //     },
+    //     separatorBuilder: (context, index) {
+    //       return const SizedBox( width: 8,);
+    //     },
+    //   ),
+    // );
+    // ^ made it responsive:
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: productList.map((e) => ProductCard(product: e)).toList(),
       ),
     );
   }
 
   Widget _buildCategoryListView(List<Category> categoryList) {
-    return SizedBox(
-              height: 120,
-              child: ListView.separated(
-                itemCount: categoryList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return CategoryItem(category: categoryList[index],);
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox( width: 16,);
-                },
-              ),
-            );
+    // return SizedBox(
+    //           height: 120,
+    //           child: ListView.separated(
+    //             itemCount: categoryList.length,
+    //             scrollDirection: Axis.horizontal,
+    //             itemBuilder: (context, index) {
+    //               return CategoryItem(category: categoryList[index],);
+    //             },
+    //             separatorBuilder: (context, index) {
+    //               return const SizedBox( width: 16,);
+    //             },
+    //           ),
+    // );
+    // as responsive:
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: categoryList.map((e) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CategoryItem(category: e),
+            const SizedBox(
+              width: 16,
+            )
+          ],
+        )).toList(),
+      ),
+    );
   }
 
   Widget _buildSearchTextField() {

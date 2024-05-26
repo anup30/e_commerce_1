@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Get.to(()=> const ProductDetailsScreen());
+        Get.to(()=> ProductDetailsScreen(productId: product.id!,));
       },
       child: Card(
         color: Colors.white,
@@ -43,9 +43,10 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(4), // 0
                   //child: Image.network(product.image?? '',fit: BoxFit.cover,),
-                  child: Image.network(product.category?.categoryImg?? '',fit: BoxFit.cover,),
+                  //child: Image.network(product.category?.categoryImg?? '',fit: BoxFit.cover,),
+                  child: Image.network(product.brand?.brandImg ?? ''),
                 ),
               ),
               Padding( // -------------------------------> extract method ?
