@@ -1,6 +1,9 @@
 import 'package:e_commerce_1/presentation/screens/complete_profile_screen.dart';
+import 'package:e_commerce_1/presentation/state_holders/verify_otp_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/widgets/app_logo.dart';
+import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';
+import 'package:e_commerce_1/presentation/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -31,7 +34,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 const SizedBox(height: 16,),
                 Text("Enter OTP Code",style: textTheme.headlineLarge),
                 const SizedBox(height: 4,),
-                Text("A 4 digit OTP code has been sent",style: textTheme.headlineSmall),
+                Text("A 6 digit OTP code has been sent",style: textTheme.headlineSmall),
                 const SizedBox(height: 24,),
                 // TextFormField(
                 //   decoration: const InputDecoration(
@@ -39,15 +42,30 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 //   ),
                 // ),
                 SizedBox(
-                  width: 250,
+                  width: 320,
                   child: _buildPinField(),
                 ),
                 const SizedBox(height: 16,),
-                ElevatedButton(
-                  onPressed: (){
-                    Get.to(()=> const CompleteProfileScreen());
-                  },
-                  child:const Text('Next'),
+                GetBuilder<VerifyOtpController>(
+                  builder: (verifyOtpController) {
+                    if(verifyOtpController.inProgress){
+                      return const CenteredCircularProgressIndicator();
+                    }
+                    return ElevatedButton(
+                      // validate otp length 6 ---------------------------------------------
+                      onPressed: ()async{
+                        final result = await verifyOtpController.verifyOtp(widget.email, _otpTEController.text);
+                        if(result){
+                          Get.to(()=> const CompleteProfileScreen());
+                        }else{
+                          if(context.mounted){ // mounted, context.mounted
+                            showSnackMessage(context, verifyOtpController.errorMessage);
+                          }
+                        }
+                      },
+                      child:const Text('Next'),
+                    );
+                  }
                 ),
                 const SizedBox(height: 24,),
                 _buildCountDownText(), // method extraction // to do: count down timer ------------------------------------------------ <<
@@ -79,7 +97,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   text: 'This code will expire in '
                 ),
                 TextSpan(
-                    text: '120 sec',
+                    text: '100 sec',
                   style: TextStyle(
                     color: AppColors.primaryColor,
                   ),
@@ -107,7 +125,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       enableActiveFill: true,
       controller: _otpTEController,
       appContext: context,
-      length: 4,
+      length: 6,
     );
   }
   @override
@@ -117,4 +135,3 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 }
 
-// 56:30

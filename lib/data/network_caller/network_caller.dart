@@ -48,6 +48,7 @@ class NetworkCaller {
     // ));
     getx.Get.to(()=> const EmailVerificationScreen());
   }
+  //at 22:00
   static Future<NetworkResponse> postRequest({ required String url,Map<String,dynamic>? body,}) async{
     //final Uri uri = Uri.parse(url);
     try{
@@ -55,7 +56,7 @@ class NetworkCaller {
       final http.Response response = await http.post( // getx or http ------------------
           Uri.parse(url),
           headers: {'accept':'application/json'},
-          body: body);
+          body: jsonEncode(body));
       log(response.statusCode.toString());
       log(response.body.toString());
       if(response.statusCode==200){
