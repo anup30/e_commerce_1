@@ -2,18 +2,17 @@
 import 'package:e_commerce_1/data/models/product.dart';
 import 'package:e_commerce_1/presentation/screens/product_details_screen.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
-import 'package:e_commerce_1/presentation/widgets/wish_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
-  final bool showAddToWishList;
-  final Product product;
   const ProductCard({
     super.key,
     this.showAddToWishList=true,
     required this.product,
   });
+  final bool showAddToWishList;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +43,9 @@ class ProductCard extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(4), // 0
-                  //child: Image.network(product.image?? '',fit: BoxFit.cover,),
+                  child: Image.network(product.image?? '',fit: BoxFit.cover,),
                   //child: Image.network(product.category?.categoryImg?? '',fit: BoxFit.cover,),
-                  child: Image.network(product.brand?.brandImg ?? ''),
+                  //child: Image.network(product.brand?.brandImg ?? ''),
                 ),
               ),
               Padding( // -------------------------------> extract method ?
@@ -83,7 +82,7 @@ class ProductCard extends StatelessWidget {
                             size: 20,),
                           Text('${product.star}'),
                         ],),
-                        const WishButton(),
+                        //const WishButton(showAddToWishList: showAddToWishList,), //-----------------------------------------
                       ],
                     ),
                   ],

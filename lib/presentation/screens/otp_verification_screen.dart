@@ -56,7 +56,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       onPressed: ()async{
                         final result = await verifyOtpController.verifyOtp(widget.email, _otpTEController.text);
                         if(result){
-                          Get.to(()=> const CompleteProfileScreen());
+                          // call to read profile controller
+                          Get.to(()=> const CompleteProfileScreen()); /// not
                         }else{
                           if(context.mounted){ // mounted, context.mounted
                             showSnackMessage(context, verifyOtpController.errorMessage);

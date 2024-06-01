@@ -1,6 +1,7 @@
 import 'package:e_commerce_1/data/models/cart_model.dart';
 import 'package:e_commerce_1/data/models/product_details_model.dart';
 import 'package:e_commerce_1/presentation/state_holders/add_to_cart_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/add_to_wish_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/product_details_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';
@@ -167,8 +168,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       size: _selectedSize?? '',
                       quantity: _counterValue,
                     );
-
-
                     addToCartController.addToCart(cartModel);
                   },
                   child: const Text('Add to Cart'),
@@ -202,22 +201,40 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Widget _buildReviewSection(ProductDetailsModel productDetails) {
     return Wrap(
-                spacing: 5,
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Wrap(children: [
-                    const Icon(Icons.star,
-                      color: Colors.amber,
-                      size: 20,
-                    ),
-                    Text('${productDetails.product?.star ?? 0}'),
-                  ],),
-                  TextButton(onPressed: (){}, child: const Text('Reviews')),
-                  const WishButton(),
-                ],
-              );
+      spacing: 5,
+      alignment: WrapAlignment.start,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Wrap(
+          children: [
+            const Icon(
+              Icons.star,
+              color: Colors.amber,
+              size: 20,
+            ),
+            Text('${productDetails.product?.star ?? 0}'),
+          ],
+        ),
+        TextButton(onPressed: () {}, child: const Text('Reviews')),
+        GetBuilder<AddToWishListController>(builder: (addToWishListController) {
+          if (addToWishListController.inProgress) {
+            return Transform.scale(
+              scale: 0.4,
+              child: const CircularProgressIndicator(),
+            );
+          }
+          return WishButton(
+            showAddToWishList: true,
+            //isSelected: false, // true /false -------------------------------------
+            onTap: (){
+              addToWishListController.addToWishList(widget.productId);
+            },
+          );
+        }),
+      ],
+    );
   }
+
   Widget _buildCounter() {
     return ItemCount( // --------------------------------------- package
       initialValue: _counterValue,

@@ -19,7 +19,7 @@ class AddToCartController extends GetxController{
       body: cartModel.toJson(),
     );
     if(response.isSuccess){
-      isSuccess =true; // myself
+      isSuccess =true;
     }else{
       _errorMessage =response.errorMessage;
     }

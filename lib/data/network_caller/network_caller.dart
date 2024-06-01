@@ -2,15 +2,23 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:e_commerce_1/data/models/network_response.dart';
 import 'package:e_commerce_1/presentation/screens/email_verification_screen.dart';
+import 'package:e_commerce_1/presentation/state_holders/user_auth_controller.dart';
 import 'package:get/get.dart' as getx;
 import 'package:http/http.dart' as http;
 
 class NetworkCaller {
-  static Future<NetworkResponse> getRequest({required String url}) async{
+  static Future<NetworkResponse> getRequest({required String url, bool fromAuth=false}) async{
     //final Uri uri = Uri.parse(url);
     try{
       log('get request: $url');
-      final http.Response response = await http.get(Uri.parse(url)); // getx or http ------------------
+      log("token = ${UserAuthController.accessToken}");
+      final http.Response response = await http.get( // http.get
+        Uri.parse(url),
+        headers: { // sending header even if not asked by backend
+          'accept':'application/json',
+          'token': UserAuthController.accessToken
+        },
+      );
       log(response.statusCode.toString());
       log(response.body.toString());
       if(response.statusCode==200){
@@ -21,7 +29,9 @@ class NetworkCaller {
           responseData: decodedData,
         );
       }else if(response.statusCode==401){
-        _goToSignInScreen();
+        if(!fromAuth){
+          _goToSignInScreen();
+        }
         return NetworkResponse(
           responseCode: response.statusCode,
           isSuccess: false,
@@ -42,10 +52,11 @@ class NetworkCaller {
 
     }
   }
-  static void _goToSignInScreen(){  // handle 401, unauthorized
+  static void _goToSignInScreen()async{  // handle 401, unauthorized
     // Navigator.push(CraftyBay.navigationKey.currentState!.context,
     // MaterialPageRoute(builder: (context)=>const EmailVerificationScreen(),
     // ));
+    await UserAuthController.clearUserData(); // clear when u get 401 from add to cart button, expired.
     getx.Get.to(()=> const EmailVerificationScreen());
   }
   //at 22:00
@@ -53,9 +64,13 @@ class NetworkCaller {
     //final Uri uri = Uri.parse(url);
     try{
       log("post request: $url");
+      log("token = ${UserAuthController.accessToken}");
       final http.Response response = await http.post( // getx or http ------------------
           Uri.parse(url),
-          headers: {'accept':'application/json'},
+          headers: {
+            'accept':'application/json',
+            'token': UserAuthController.accessToken
+          },
           body: jsonEncode(body));
       log(response.statusCode.toString());
       log(response.body.toString());

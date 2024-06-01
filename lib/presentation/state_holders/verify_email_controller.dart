@@ -17,7 +17,7 @@ class VerifyEmailController extends GetxController{
       url: Urls.verifyEmail(email),
     );
     if(response.isSuccess){
-      isSuccess =true; // myself
+      isSuccess =true;
     }else{
       _errorMessage =response.errorMessage;
     }

@@ -18,6 +18,9 @@ class Urls{
 
   static String verifyEmail(String email) => '$_baseUrl2/UserLogin/$email';
 
-  static String verifyOtp(String email, String otp) => '$_baseUrl2/UserLogin/$email/$otp';
+  static String verifyOtp(String email, String otp) => '$_baseUrl2/VerifyLogin/$email/$otp';
 
+  static String createWishList(int productId) => '$_baseUrl2/CreateWishList/$productId'; // {{BASE}}/CreateWishList/4 // add to wish list controller
+
+  static const String getWishList = '$_baseUrl2/ProductWishList'; // {{BASE}}/ProductWishList
 }

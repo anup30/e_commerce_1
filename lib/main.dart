@@ -10,6 +10,8 @@ void main(){
 
 // extract in product_details_screen ?
 // to do: countdown timer, in otp_verification_screen ( + see more in github of this page)
+// in otp_verification_screen see description(readProfile api -completeProfile/homeScreen) in github of this page)
+
 
 /*
   for internet permission of your app,
@@ -35,3 +37,5 @@ void main(){
 * cached_network_image 3.3.1
 * A flutter library to show images from the internet and keep them in the cache directory.
 * */
+
+// wishList: unFavourite ? problem? 

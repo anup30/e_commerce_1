@@ -7,7 +7,7 @@ import 'package:e_commerce_1/presentation/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EmailVerificationScreen extends StatefulWidget {
+class EmailVerificationScreen extends StatefulWidget {  // can come to this page after pressing 'add to cart' button, & 401 is sent
   const EmailVerificationScreen({super.key});
 
   @override
