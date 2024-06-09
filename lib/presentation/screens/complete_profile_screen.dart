@@ -1,5 +1,9 @@
+import 'package:e_commerce_1/presentation/screens/home_screen.dart';
+import 'package:e_commerce_1/presentation/state_holders/complete_profile_controller.dart';
 import 'package:e_commerce_1/presentation/widgets/app_logo.dart';
+import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key,});
@@ -37,11 +41,18 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 const SizedBox(height: 24,),
                 _buildProfileForm(), // method extraction
                 const SizedBox(height: 16,),
-                ElevatedButton(
-                  onPressed: (){
-                    //-------------------------------------------------------------------
-                  },
-                  child:const Text('Complete'),
+                GetBuilder<CompleteProfileController>(
+                  builder: (completeProfileController) {
+                    if(completeProfileController.inProgress){
+                      return const CenteredCircularProgressIndicator();
+                    }
+                    return ElevatedButton(
+                      onPressed: (){
+                        completeProfile(); //-------------------------------------------------------------------
+                      },
+                      child:const Text('Complete'),
+                    );
+                  }
                 ),
               ],
             ),
@@ -104,7 +115,30 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       ),
     );
   }
+  Future <void> completeProfile() async{
+    Map<String,dynamic> formData = {
+      "cus_name": "${_firstNameTEController.text} ${_lastNameTEController.text}",
+      "cus_add": _shippingAddressTEController.text,
+      "cus_city": _cityTEController.text,
+      "cus_state": _cityTEController.text,
+      "cus_postcode": _mobileTEController.text,
+      "cus_country": _cityTEController.text,
+      "cus_phone": _mobileTEController.text,
+      "cus_fax": _mobileTEController.text,
+      "ship_name": "${_firstNameTEController.text} ${_lastNameTEController.text}",
+      "ship_add": _shippingAddressTEController.text,
+      "ship_city": _cityTEController.text,
+      "ship_state": _cityTEController.text,
+      "ship_postcode": _mobileTEController.text,
+      "ship_country": _cityTEController.text,
+      "ship_phone": _mobileTEController.text
+    };
+    final result = await Get.find<CompleteProfileController>().completeProfile(formData);
+    if(result){
+      Get.to(()=>const HomeScreen());
+    }
 
+  }
   @override
   void dispose() {
     _firstNameTEController.dispose();
@@ -112,8 +146,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     _mobileTEController.dispose();
     _cityTEController.dispose();
     _shippingAddressTEController.dispose();
-    //_formKey dispose(); ? --------------------------
+    //_formKey dispose(); ?
     super.dispose();
   }
+
+
 }
 

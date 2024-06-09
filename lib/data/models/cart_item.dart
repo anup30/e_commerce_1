@@ -6,7 +6,7 @@ class CartItemModel { // models have toJson/ fromJson parsing codes
   int? productId;
   String? color;
   String? size;
-  String? qty;
+  int? qty=1;
   String? price;
   String? createdAt;
   String? updatedAt;
@@ -30,7 +30,7 @@ class CartItemModel { // models have toJson/ fromJson parsing codes
     productId = json['product_id'];
     color = json['color'];
     size = json['size'];
-    qty = json['qty'];
+    qty = int.tryParse(json['qty'])?? 1;
     price = json['price'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

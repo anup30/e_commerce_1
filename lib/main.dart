@@ -38,4 +38,6 @@ void main(){
 * A flutter library to show images from the internet and keep them in the cache directory.
 * */
 
-// wishList: unFavourite ? problem? 
+// wishList: unFavourite ? problem?
+
+// deleteCartItem in cart_list_controller

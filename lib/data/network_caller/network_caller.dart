@@ -24,8 +24,8 @@ class NetworkCaller {
       if(response.statusCode==200){
         final decodedData = jsonDecode(response.body);
         return NetworkResponse(
-            responseCode: response.statusCode,
-            isSuccess: true,
+          responseCode: response.statusCode,
+          isSuccess: true,
           responseData: decodedData,
         );
       }else if(response.statusCode==401){
@@ -59,19 +59,20 @@ class NetworkCaller {
     await UserAuthController.clearUserData(); // clear when u get 401 from add to cart button, expired.
     getx.Get.to(()=> const EmailVerificationScreen());
   }
-  //at 22:00
-  static Future<NetworkResponse> postRequest({ required String url,Map<String,dynamic>? body,}) async{
+
+  static Future<NetworkResponse> postRequest({ required String url,Map<String,dynamic>? formData,}) async{
     //final Uri uri = Uri.parse(url);
     try{
       log("post request: $url");
       log("token = ${UserAuthController.accessToken}");
       final http.Response response = await http.post( // getx or http ------------------
-          Uri.parse(url),
-          headers: {
-            'accept':'application/json',
-            'token': UserAuthController.accessToken
-          },
-          body: jsonEncode(body));
+        Uri.parse(url),
+        headers: {
+          'accept':'application/json',
+          'token': UserAuthController.accessToken
+        },
+        body: jsonEncode(formData),
+      );
       log(response.statusCode.toString());
       log(response.body.toString());
       if(response.statusCode==200){

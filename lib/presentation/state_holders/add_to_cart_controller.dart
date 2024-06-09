@@ -16,7 +16,7 @@ class AddToCartController extends GetxController{
     update();
     final NetworkResponse response = await NetworkCaller.postRequest(
       url: Urls.addToCart,
-      body: cartModel.toJson(),
+      formData: cartModel.toJson(),
     );
     if(response.isSuccess){
       isSuccess =true;

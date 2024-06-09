@@ -71,17 +71,7 @@ class _CartListScreenState extends State<CartListScreen> {
             topLeft: Radius.circular(16),
             topRight: Radius.circular(16),
           ),
-        // boxShadow: const [
-        //   BoxShadow(color: Colors.black,),
-        //   BoxShadow(
-        //     color: Colors.white,
-        //     blurRadius: 5,
-        //     spreadRadius: -5, // spreadRadius -ve for inside
-        //     offset: Offset(5,0),
-        //   ),
-        //   BoxShadow(color: Colors.white,blurRadius: 10, offset: Offset(-5,0),),
-        //   BoxShadow(color: Colors.white,blurRadius: 10, offset: Offset(0,-5),),
-        // ]
+
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

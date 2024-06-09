@@ -1,4 +1,6 @@
 import 'package:e_commerce_1/presentation/screens/complete_profile_screen.dart';
+import 'package:e_commerce_1/presentation/screens/home_screen.dart';
+import 'package:e_commerce_1/presentation/state_holders/read_profile_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/verify_otp_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/widgets/app_logo.dart';
@@ -51,20 +53,30 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     if(verifyOtpController.inProgress){
                       return const CenteredCircularProgressIndicator();
                     }
-                    return ElevatedButton(
-                      // validate otp length 6 ---------------------------------------------
-                      onPressed: ()async{
-                        final result = await verifyOtpController.verifyOtp(widget.email, _otpTEController.text);
-                        if(result){
-                          // call to read profile controller
-                          Get.to(()=> const CompleteProfileScreen()); /// not
-                        }else{
-                          if(context.mounted){ // mounted, context.mounted
-                            showSnackMessage(context, verifyOtpController.errorMessage);
-                          }
+                    return GetBuilder<ReadProfileController>(
+                      builder: (readProfileController) {
+                        if(readProfileController.inProgress){
+                          return const CenteredCircularProgressIndicator();
                         }
-                      },
-                      child:const Text('Next'),
+                        return ElevatedButton(
+                          onPressed: ()async{
+                            final result = await verifyOtpController.verifyOtp(widget.email, _otpTEController.text);
+                            if(result){
+                              final hasProfileAlready = await readProfileController.readProfile();
+                              if(hasProfileAlready){
+                                Get.to(()=> const HomeScreen());
+                              }else{
+                                Get.to(()=> const CompleteProfileScreen());
+                              }
+                            }else{
+                              if(context.mounted){ // mounted, context.mounted
+                                showSnackMessage(context, verifyOtpController.errorMessage);
+                              }
+                            }
+                          },
+                          child:const Text('Next'),
+                        );
+                      }
                     );
                   }
                 ),
