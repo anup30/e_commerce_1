@@ -41,3 +41,13 @@ void main(){
 // wishList: unFavourite ? problem?
 
 // deleteCartItem in cart_list_controller
+
+/*
+Complete the full project including-
+Assignment(*):
+1. Review list
+2. create review
+3. delete cart
+4. delete wishlist
+5. complete profile
+*/

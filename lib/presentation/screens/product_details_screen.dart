@@ -7,6 +7,7 @@ import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';
 import 'package:e_commerce_1/presentation/widgets/product_image_carousel_slider.dart';
 import 'package:e_commerce_1/presentation/widgets/size_picker.dart';
+import 'package:e_commerce_1/presentation/widgets/snack_message.dart';
 import 'package:e_commerce_1/presentation/widgets/wish_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -168,7 +169,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       size: _selectedSize?? '',
                       quantity: _counterValue,
                     );
-                    addToCartController.addToCart(cartModel);
+                    addToCartController.addToCart(cartModel).then((result){
+                      if(result){
+                        showSnackMessage(context, 'Added to cart');
+                      }else{
+                        showSnackMessage(context, addToCartController.errorMessage);
+                      }
+                    });
                   },
                   child: const Text('Add to Cart'),
                 );
