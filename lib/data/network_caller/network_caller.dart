@@ -68,7 +68,8 @@ class NetworkCaller {
       final http.Response response = await http.post( // getx or http ------------------
         Uri.parse(url),
         headers: {
-          'accept':'application/json',
+          //'accept':'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
           'token': UserAuthController.accessToken
         },
         body: jsonEncode(formData),
