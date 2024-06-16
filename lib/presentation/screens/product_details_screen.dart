@@ -2,6 +2,7 @@ import 'package:e_commerce_1/data/models/cart_model.dart';
 import 'package:e_commerce_1/data/models/product_details_model.dart';
 import 'package:e_commerce_1/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/add_to_wish_list_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/cart_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/product_details_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';
@@ -22,9 +23,10 @@ class ProductDetailsScreen extends StatefulWidget { // extract? in this file ---
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  final _counterValue= 1.obs;
+  final _counter= 1.obs;
   String? _selectedColor;
   String? _selectedSize;
+  CartListController controllerCLC = Get.find();
   //int _unitTotalPrice = _counterValue*unitPrice;
   // double itemTotalPrice(){
   //   return _counterValue.value * (productDetails.product?.price ?? 0);
@@ -171,11 +173,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       productId: widget.productId,
                       color: _selectedColor ?? 'Red',
                       size: _selectedSize?? 'X',
-                      quantity: _counterValue.value,
+                      quantity: _counter.value,
                     );
                     addToCartController.addToCart(cartModel).then((result){
                       if(result){
                         showSnackMessage(context, 'Added to cart');
+
+                        controllerCLC.setTotalPrice();
                       }else{
                         showSnackMessage(context, addToCartController.errorMessage);
                       }
@@ -195,7 +199,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     String itemTotalPrice(){
       //double unitPrice = double.tryParse(productDetails.product?.price ??'0')??0; //price was string before
       double unitPrice = productDetails.product?.price ??0;
-      return (_counterValue.value * unitPrice).toStringAsFixed(1);
+      return (_counter.value * unitPrice).toStringAsFixed(0);
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +260,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Widget _buildCounter() { // ------------------------------------------------------------------------- do
     return ItemCount( // --------------------------------------- package
-      initialValue: _counterValue.value,
+      initialValue: _counter.value,
       minValue: 1,
       maxValue: 20,
       decimalPlaces: 0,
@@ -264,7 +268,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       //textStyle: TextStyle(color: Colors.white),
       onChanged: (value) {
         print(value);
-        _counterValue.value = value as int;
+        _counter.value = value as int;
         setState(() {});
       },
     );

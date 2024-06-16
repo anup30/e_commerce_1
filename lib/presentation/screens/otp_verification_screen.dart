@@ -1,4 +1,7 @@
 import 'package:e_commerce_1/presentation/screens/complete_profile_screen.dart';
+import 'package:e_commerce_1/presentation/screens/home_screen.dart';
+import 'package:e_commerce_1/presentation/screens/splash_screen.dart';
+import 'package:e_commerce_1/presentation/state_holders/main_bottom_nav_bar_controller.dart';
 import 'package:e_commerce_1/presentation/screens/main_bottom_nav_bar_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/read_profile_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/verify_email_controller.dart';
@@ -77,7 +80,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             if(result){
                               final hasProfileAlready = await readProfileController.readProfile();
                               if(hasProfileAlready){
-                                Get.to(()=> const MainBottomNavBarScreen());
+                                //Get.to(()=> const SplashScreen());
+                                //Get.offAll(() =>const MainBottomNavBarScreen());
+                                //Get.offUntil();
+                                Get.close(2); // close 2 times
+                                //Get.find<MainBottomNavBarController>().backToHome();
+                                //Get.to(()=> const MainBottomNavBarScreen());
+                                //Get.to(()=> const HomeScreen());
                               }else{
                                 Get.to(()=> const CompleteProfileScreen());
                               }

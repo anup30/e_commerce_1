@@ -18,6 +18,7 @@ class CartProductItem extends StatefulWidget {
 class _CartProductItemState extends State<CartProductItem> {
   //late int _counterValue;
   final _counter = 1.obs;
+  CartListController controllerCLC = Get.find();
 
   @override
   void initState() {
@@ -59,8 +60,9 @@ class _CartProductItemState extends State<CartProductItem> {
             ),
             IconButton(
               onPressed: () async{
-                bool result= await Get.find<CartListController>().deleteCartItem(widget.cartItem.productId!);
+                bool result= await controllerCLC.deleteCartItem(widget.cartItem.productId!);
                 if(result){
+                  controllerCLC.setTotalPrice();
                   //setState(() {});  --------------------------------------------------
                 }
               },
@@ -75,7 +77,7 @@ class _CartProductItemState extends State<CartProductItem> {
               () => Text(
                 //'\$${widget.cartItem.product?.price ?? 0}', // ---------------
                 //'\$${(widget.cartItem.qty!) * (widget.cartItem.price!)}',
-                '\$${(_counter.value) * (widget.cartItem.price!)}',
+                '\$${((_counter.value)*(widget.cartItem.price!)).toStringAsFixed(0)}',
                 style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -118,7 +120,8 @@ class _CartProductItemState extends State<CartProductItem> {
         _counter.value = value as int;
         //widget.totalPrice = Get.find<CartListController>().totalPrice.obs;
         setState(() {}); // ---------------------------------------------------------------------------
-        Get.find<CartListController>().changeProductQuantity(widget.cartItem.id!, _counter.value);
+        controllerCLC.changeProductQuantity(widget.cartItem.id!, _counter.value);
+        controllerCLC.setTotalPrice();
       },
     );
   }

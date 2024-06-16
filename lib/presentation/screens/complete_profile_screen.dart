@@ -135,9 +135,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     };
     final result = await Get.find<CompleteProfileController>().completeProfile(formData);
     if(result){
-      Get.to(()=>const HomeScreen());
+      //Get.to(()=>const HomeScreen());
+      Get.close(3); // close 3 times: email, otp, complete profile
     }
-
   }
   @override
   void dispose() {

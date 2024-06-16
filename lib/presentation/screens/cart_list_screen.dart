@@ -14,13 +14,17 @@ class CartListScreen extends StatefulWidget {
 }
 
 class _CartListScreenState extends State<CartListScreen> {
-  //RxDouble totalPrice = Get.find<CartListController>().totalPrice.obs;
   CartListController controllerCLC = Get.find();
   @override
   void initState() {
     super.initState();
-    Get.find<CartListController>().getCartList();
+    controllerTask();
   }
+  void controllerTask()async{
+    await Get.find<CartListController>().getCartList();
+    controllerCLC.setTotalPrice();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -100,13 +104,19 @@ class _CartListScreenState extends State<CartListScreen> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
         ),
         //Obx(()=>
-            Text(
-              //'\$${totalPrice.value}',
-              '\$${controllerCLC.totalPrice}', // don't find controllerCLC here
-              style: const TextStyle(
-                  fontSize: 24,
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.bold),
+            GetBuilder<CartListController>(
+              builder: (cartListController) {
+                //cartListController.setTotalPrice();
+                return Text(
+                  //'\$${controllerCLC.totalPrice.value.toStringAsFixed(0)}', // don't find controllerCLC here
+                  //'\$${controllerCLC.totalPriceFunc}',
+                  '\$${cartListController.totalPrice.value.toStringAsFixed(0)}',
+                  style: const TextStyle(
+                      fontSize: 24,
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.bold),
+                );
+              }
             ),
         //),
       ],

@@ -4,7 +4,6 @@ import 'package:e_commerce_1/data/models/network_response.dart';
 import 'package:e_commerce_1/data/network_caller/network_caller.dart';
 import 'package:e_commerce_1/data/utility/urls.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class CartListController extends GetxController{
   bool _inProgress = false;
@@ -33,20 +32,25 @@ class CartListController extends GetxController{
     update();
     return isSuccess;
   }
-  final RxDouble _total = 0.0.obs;
-  double get totalPrice{
+  final RxDouble totalPrice = 0.0.obs;
+  void setTotalPrice(){
     double price=0, quantity=0;
-    _total.value =0;
+    totalPrice.value =0;
     for (CartItemModel cartItem in _cartList) {
       quantity= cartItem.qty!.toDouble();
       //price= double.tryParse(cartItem.product?.price ?? '0') ?? 0; // was string before
       price = cartItem.price ?? 0;
-      _total.value += (quantity*price);
+      totalPrice.value += (quantity*price);
+      print("quantity= $quantity, price= $price");
+      print("setTotalPrice(): totalPrice.value = ${totalPrice.value}");
     }
-    return _total.value;
+    update();
+  }
+  String get totalPriceFunc{
+    return totalPrice.value.toStringAsFixed(0);
   }
   void changeProductQuantity(int cartId, int quantity){
-    _cartList.firstWhere((c)=>c.id==cartId).qty == quantity;
+    _cartList.firstWhere((c)=>c.id==cartId).qty == quantity; //------------------------------------------------------------
     update();
   }
 
