@@ -1,9 +1,10 @@
-import 'package:e_commerce_1/data/models/cart_item.dart';
+import 'package:e_commerce_1/data/models/cart_item_model.dart';
 import 'package:e_commerce_1/data/models/cart_list_model.dart';
 import 'package:e_commerce_1/data/models/network_response.dart';
 import 'package:e_commerce_1/data/network_caller/network_caller.dart';
 import 'package:e_commerce_1/data/utility/urls.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 
 class CartListController extends GetxController{
   bool _inProgress = false;
@@ -18,9 +19,10 @@ class CartListController extends GetxController{
     _inProgress=true;
     update();
     final NetworkResponse response = await NetworkCaller.getRequest(
-      url: Urls.getWishList,
+      url: Urls.cartList,
     );
     if(response.isSuccess){
+      /// if "msg" : "success" ---------------------------------------------------------- add
       _cartList =
           CartListModel.fromJson(response.responseData).cartList ?? []; //-------------
       isSuccess =true;
@@ -31,45 +33,38 @@ class CartListController extends GetxController{
     update();
     return isSuccess;
   }
+  final RxDouble _total = 0.0.obs;
   double get totalPrice{
-    double total =0, d1=0,d2=0;
+    double price=0, quantity=0;
+    _total.value =0;
     for (CartItemModel cartItem in _cartList) {
-      d1= cartItem.qty!.toDouble();
-      d2= double.tryParse(cartItem.product?.price ?? '0') ?? 0;
-      total += (d1*d2);
+      quantity= cartItem.qty!.toDouble();
+      //price= double.tryParse(cartItem.product?.price ?? '0') ?? 0; // was string before
+      price = cartItem.price ?? 0;
+      _total.value += (quantity*price);
     }
-    return total;
+    return _total.value;
   }
-  // double get totalPrice {
-  //   double total = 0;
-  //   for (CartItemModel cartItem in _cartList) {
-  //     total += (double.tryParse(cartItem.qty ?? '1') ?? 1) *
-  //         (double.tryParse(cartItem.product?.price ?? '0') ?? 0);
-  //   }
-  //
-  //   return total;
-  // }
   void changeProductQuantity(int cartId, int quantity){
     _cartList.firstWhere((c)=>c.id==cartId).qty == quantity;
     update();
   }
 
-  void _deleteCartItem(int cartId)async{
-    _cartList.removeWhere((c)=>c.id==cartId);
+  void _deleteCartItem(int productId)async{
+    _cartList.removeWhere((c)=>c.productId==productId);
   }
 
-  Future<bool> deleteCartItem(int cartId)async{
+  Future<bool> deleteCartItem(int productId)async{ //productId, cartId
     bool isSuccess = false;
     _inProgress=true;
     update();
     final NetworkResponse response = await NetworkCaller.getRequest(
-      url: Urls.deleteCartList(cartId), // todo: change url.
+      url: Urls.deleteCartList(productId),
       // {{BASE}}/DeleteCartList/6
     );
     if(response.isSuccess){
-      _deleteCartItem(cartId);
-      _cartList =
-          CartListModel.fromJson(response.responseData).cartList ?? []; //-------------
+      _deleteCartItem(productId);
+      //_cartList = CartListModel.fromJson(response.responseData).cartList ?? []; //----------------- not needed ?
       isSuccess =true;
     }else{
       _errorMessage =response.errorMessage;

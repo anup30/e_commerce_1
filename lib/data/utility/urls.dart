@@ -17,6 +17,8 @@ class Urls{
 
   static const String addToCart = '$_baseUrl/CreateCartList';
 
+  static const String cartList = '$_baseUrl/CartList';
+
   static String deleteCartList(int productId) => '$_baseUrl/DeleteCartList/$productId'; // {{BASE}}/DeleteCartList/6
 
   static String verifyEmail(String email) => '$_baseUrl/UserLogin/$email';
@@ -30,4 +32,5 @@ class Urls{
   static const String readProfile = '$_baseUrl/ReadProfile'; //{{BASE}}/ReadProfile +token in header
 
   static const String createProfile = '$_baseUrl/CreateProfile';
+
 }

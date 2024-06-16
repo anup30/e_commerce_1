@@ -22,9 +22,13 @@ class ProductDetailsScreen extends StatefulWidget { // extract? in this file ---
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  int _counterValue=1;
+  final _counterValue= 1.obs;
   String? _selectedColor;
   String? _selectedSize;
+  //int _unitTotalPrice = _counterValue*unitPrice;
+  // double itemTotalPrice(){
+  //   return _counterValue.value * (productDetails.product?.price ?? 0);
+  // }
 
   @override
   void initState() {
@@ -74,7 +78,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black.withOpacity(0.8),
                                 ),)),
-                              _buildCounter(),
+                              _buildCounter(), //-------------------------------------
 
                             ],
                           ),
@@ -165,9 +169,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   onPressed: () {
                     CartModel cartModel = CartModel(
                       productId: widget.productId,
-                      color: _selectedColor ?? '',
-                      size: _selectedSize?? '',
-                      quantity: _counterValue,
+                      color: _selectedColor ?? 'Red',
+                      size: _selectedSize?? 'X',
+                      quantity: _counterValue.value,
                     );
                     addToCartController.addToCart(cartModel).then((result){
                       if(result){
@@ -186,8 +190,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
     );
   }
-  //at 51:00
+
   Widget _buildPriceWidget(ProductDetailsModel productDetails) {
+    String itemTotalPrice(){
+      //double unitPrice = double.tryParse(productDetails.product?.price ??'0')??0; //price was string before
+      double unitPrice = productDetails.product?.price ??0;
+      return (_counterValue.value * unitPrice).toStringAsFixed(1);
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -195,12 +204,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           'Price',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
         ),
-        Text(
-          '\$${productDetails.product?.price ?? 0}', // ------------------------------------ unit price ?
-          style: const TextStyle(
-              fontSize: 24,
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.bold),
+        Obx(()=>
+            Text(
+              //'\$${(productDetails.product?.price ?? 0)* _counterValue.value}', // ------------- unit price ?
+              itemTotalPrice(),
+              style: const TextStyle(
+                  fontSize: 24,
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.bold),
+            ),
         ),
       ],
     );
@@ -242,9 +254,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildCounter() {
+  Widget _buildCounter() { // ------------------------------------------------------------------------- do
     return ItemCount( // --------------------------------------- package
-      initialValue: _counterValue,
+      initialValue: _counterValue.value,
       minValue: 1,
       maxValue: 20,
       decimalPlaces: 0,
@@ -252,7 +264,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       //textStyle: TextStyle(color: Colors.white),
       onChanged: (value) {
         print(value);
-        _counterValue = value as int;
+        _counterValue.value = value as int;
         setState(() {});
       },
     );

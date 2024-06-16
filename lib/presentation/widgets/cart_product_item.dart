@@ -1,4 +1,4 @@
-import 'package:e_commerce_1/data/models/cart_item.dart';
+import 'package:e_commerce_1/data/models/cart_item_model.dart';
 import 'package:e_commerce_1/presentation/state_holders/cart_list_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/utility/assets_path.dart';
@@ -16,12 +16,13 @@ class CartProductItem extends StatefulWidget {
 }
 
 class _CartProductItemState extends State<CartProductItem> {
-  late int _counterValue;
+  //late int _counterValue;
+  final _counter = 1.obs;
 
   @override
   void initState() {
     super.initState();
-    _counterValue = widget.cartItem.qty!;
+    _counter.value = widget.cartItem.qty!;
   }
 
   @override
@@ -57,8 +58,11 @@ class _CartProductItemState extends State<CartProductItem> {
               ),
             ),
             IconButton(
-              onPressed: () {
-
+              onPressed: () async{
+                bool result= await Get.find<CartListController>().deleteCartItem(widget.cartItem.productId!);
+                if(result){
+                  //setState(() {});  --------------------------------------------------
+                }
               },
               icon: const Icon(Icons.delete_outline_sharp),
             )
@@ -67,12 +71,16 @@ class _CartProductItemState extends State<CartProductItem> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '\$${widget.cartItem.product?.price ?? 0}',
-              style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: AppColors.primaryColor),
+            Obx(
+              () => Text(
+                //'\$${widget.cartItem.product?.price ?? 0}', // ---------------
+                //'\$${(widget.cartItem.qty!) * (widget.cartItem.price!)}',
+                '\$${(_counter.value) * (widget.cartItem.price!)}',
+                style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: AppColors.primaryColor),
+              ),
             ),
             _buildCounter(),
           ],
@@ -99,7 +107,7 @@ class _CartProductItemState extends State<CartProductItem> {
 
   Widget _buildCounter() {
     return ItemCount( // --------------------------------------- package
-      initialValue: _counterValue,
+      initialValue: _counter.value,
       minValue: 1,
       maxValue: 20,
       decimalPlaces: 0,
@@ -107,9 +115,10 @@ class _CartProductItemState extends State<CartProductItem> {
       //textStyle: TextStyle(color: Colors.white),
       onChanged: (value) {
         print(value);
-        _counterValue = value as int;
-        //setState(() {});
-        Get.find<CartListController>().changeProductQuantity(widget.cartItem.id!, _counterValue);
+        _counter.value = value as int;
+        //widget.totalPrice = Get.find<CartListController>().totalPrice.obs;
+        setState(() {}); // ---------------------------------------------------------------------------
+        Get.find<CartListController>().changeProductQuantity(widget.cartItem.id!, _counter.value);
       },
     );
   }
@@ -126,7 +135,7 @@ class _CartProductItemState extends State<CartProductItem> {
   Widget _buildProductImage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SvgPicture.asset(
+      child: SvgPicture.asset( // ------------------------------------------------------------------ add product image
         AssetsPath.shoeSvg,
         width: 100,
       ),

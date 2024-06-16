@@ -3,11 +3,11 @@ import 'package:e_commerce_1/data/models/product.dart';
 class CartItemModel { // models have toJson/ fromJson parsing codes
   int? id;
   int? userId;
-  int? productId;
+  int? productId; // send for delete
   String? color;
   String? size;
   int? qty=1;
-  String? price;
+  double? price;
   String? createdAt;
   String? updatedAt;
   Product? product;
@@ -31,7 +31,7 @@ class CartItemModel { // models have toJson/ fromJson parsing codes
     color = json['color'];
     size = json['size'];
     qty = int.tryParse(json['qty'])?? 1;
-    price = json['price'];
+    price = double.tryParse(json['price']) ?? 0;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     product =

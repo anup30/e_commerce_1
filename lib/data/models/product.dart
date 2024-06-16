@@ -5,7 +5,7 @@ class Product { // or ProductModel
   int? id;
   String? title;
   String? shortDes;
-  String? price;
+  double? price; /// was String?
   int? discount;
   String? discountPrice;
   String? image;
@@ -41,7 +41,7 @@ class Product { // or ProductModel
     id = json['id'];
     title = json['title'];
     shortDes = json['short_des'];
-    price = json['price'];
+    price = double.tryParse(json['price'])?? 0;
     discount = json['discount'];
     discountPrice = json['discount_price'];
     image = json['image'];

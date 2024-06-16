@@ -14,6 +14,8 @@ class CartListScreen extends StatefulWidget {
 }
 
 class _CartListScreenState extends State<CartListScreen> {
+  //RxDouble totalPrice = Get.find<CartListController>().totalPrice.obs;
+  CartListController controllerCLC = Get.find();
   @override
   void initState() {
     super.initState();
@@ -48,12 +50,12 @@ class _CartListScreenState extends State<CartListScreen> {
                     itemCount: cartListController.cartList.length,
                     itemBuilder: (context, index) {
                       return CartProductItem(
-                        cartItem: cartListController.cartList[index],
+                        cartItem: cartListController.cartList[index], //---------------------------
                       );
                     },
                   ),
                 ),
-                _buildCheckoutWidget(cartListController.totalPrice),
+                _buildCheckoutWidget(),
               ],
             );
           }
@@ -62,7 +64,7 @@ class _CartListScreenState extends State<CartListScreen> {
     );
   }
 
-  Widget _buildCheckoutWidget(double totalPrice) {
+  Widget _buildCheckoutWidget() {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -76,7 +78,7 @@ class _CartListScreenState extends State<CartListScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildTotalPriceWidget(totalPrice),
+          _buildTotalPriceWidget(),
           SizedBox(
             width: 100,
             child: ElevatedButton(
@@ -89,7 +91,7 @@ class _CartListScreenState extends State<CartListScreen> {
     );
   }
 
-  Widget _buildTotalPriceWidget(double price) {
+  Widget _buildTotalPriceWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -97,13 +99,16 @@ class _CartListScreenState extends State<CartListScreen> {
           'Total Price',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
         ),
-        Text(
-          '\$$price',
-          style: const TextStyle(
-              fontSize: 24,
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.bold),
-        ),
+        //Obx(()=>
+            Text(
+              //'\$${totalPrice.value}',
+              '\$${controllerCLC.totalPrice}', // don't find controllerCLC here
+              style: const TextStyle(
+                  fontSize: 24,
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.bold),
+            ),
+        //),
       ],
     );
   }

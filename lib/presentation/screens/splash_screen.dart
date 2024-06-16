@@ -1,4 +1,4 @@
-import 'package:e_commerce_1/presentation/screens/main_botton_nav_bar_screen.dart';
+import 'package:e_commerce_1/presentation/screens/main_bottom_nav_bar_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/user_auth_controller.dart';
 import 'package:e_commerce_1/presentation/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   Future<void> _moveToNextScreen()async{
     await Future.delayed(const Duration(seconds: 2));
-    await UserAuthController.getUserToken(); //------------------------------------------------------------------------------------------
-    Get.off(() =>const MainBottomNavBarScreen()); // EmailVerificationScreen() ------------------------------------------------
+    await UserAuthController.getUserToken();
+    Get.off(() =>const MainBottomNavBarScreen());
   }
 
   @override

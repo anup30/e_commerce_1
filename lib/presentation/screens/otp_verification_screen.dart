@@ -1,6 +1,7 @@
 import 'package:e_commerce_1/presentation/screens/complete_profile_screen.dart';
-import 'package:e_commerce_1/presentation/screens/home_screen.dart';
+import 'package:e_commerce_1/presentation/screens/main_bottom_nav_bar_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/read_profile_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/verify_email_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/verify_otp_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/widgets/app_logo.dart';
@@ -20,6 +21,22 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final _otpTEController = TextEditingController();
+  final _timeCount = 300.obs;
+  @override
+  void initState() {
+    super.initState();
+    timeDecrement();
+  }
+
+  void timeDecrement()async{
+    while(_timeCount.value>0){
+      await Future.delayed(const Duration(seconds: 1));
+      _timeCount.value--;
+    }
+    if(_timeCount.value == 0){
+      _otpTEController.clear();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final textTheme= Theme.of(context).textTheme;
@@ -38,11 +55,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 const SizedBox(height: 4,),
                 Text("A 6 digit OTP code has been sent",style: textTheme.headlineSmall),
                 const SizedBox(height: 24,),
-                // TextFormField(
-                //   decoration: const InputDecoration(
-                //     hintText: 'otp',
-                //   ),
-                // ),
                 SizedBox(
                   width: 320,
                   child: _buildPinField(),
@@ -60,11 +72,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         }
                         return ElevatedButton(
                           onPressed: ()async{
+                            _timeCount.value =0;
                             final result = await verifyOtpController.verifyOtp(widget.email, _otpTEController.text);
                             if(result){
                               final hasProfileAlready = await readProfileController.readProfile();
                               if(hasProfileAlready){
-                                Get.to(()=> const HomeScreen());
+                                Get.to(()=> const MainBottomNavBarScreen());
                               }else{
                                 Get.to(()=> const CompleteProfileScreen());
                               }
@@ -81,47 +94,60 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   }
                 ),
                 const SizedBox(height: 24,),
-                _buildCountDownText(), // method extraction // to do: count down timer ------------------------------------------------ <<
-                TextButton( // to do: activate it after count down timer is 0 ----------------------------------------------------- <<
-                  onPressed: () {},
-                  child: const Text(
-                    'Resend code',
-                    style: TextStyle(color: Colors.grey),
-                  ),
+                Obx(
+                  () => _timeCount.value > 0
+                      ? _buildCountDownText()
+                      : TextButton(
+                          onPressed: () async {
+                            final result =
+                                await Get.find<VerifyEmailController>()
+                                    .verifyEmail(widget.email);
+                            if (result) {
+                              _timeCount.value = 300;
+                              timeDecrement();
+                            } else {
+                              if(context.mounted){
+                                showSnackMessage(context, 'an error occurred resending email');
+                              }
+                            }
+                          },
+                          child: const Text(
+                            'Resend code',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
                 ),
               ],
             ),
           ),
         ),
       ),
-
     );
   }
 
-  RichText _buildCountDownText() {
-    return RichText(
-            text: const TextSpan(
-              style: TextStyle(
+  Widget _buildCountDownText() {
+    return
+        RichText(
+          text: TextSpan(
+              style: const TextStyle(
                 color: Colors.grey,
                 fontWeight: FontWeight.w500,
               ),
               children: [
-                TextSpan(
-                  text: 'This code will expire in '
+                const TextSpan(
+                    text: 'This code will expire in '
                 ),
                 TextSpan(
-                    text: '100 sec',
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                  ),
+                  text: '${_timeCount.value} sec',
+                  style: const TextStyle(color: AppColors.primaryColor,),
                 ),
               ]
-            ),
-          );
+          ),
+        );
   }
   Widget _buildPinField(){ // method extraction, didn't use getter, cos may need to pass context in future.
     return PinCodeTextField(
-      autoDisposeControllers: false, //-----------------------------------------
+      //autoDisposeControllers: false, //-----------------------------------------
       obscureText: false,
       animationType: AnimationType.fade,
       keyboardType: TextInputType.number,
@@ -143,7 +169,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
   @override
   void dispose() {
-    _otpTEController.dispose(); //--------------------------------------------
+    //_otpTEController.dispose(); //--------------------------------------------
     super.dispose();
   }
 }

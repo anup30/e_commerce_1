@@ -1,4 +1,4 @@
-import 'package:e_commerce_1/data/models/cart_item.dart';
+import 'package:e_commerce_1/data/models/cart_item_model.dart';
 
 class CartListModel {
   String? msg;
