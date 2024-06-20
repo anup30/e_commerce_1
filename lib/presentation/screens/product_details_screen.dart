@@ -23,7 +23,7 @@ class ProductDetailsScreen extends StatefulWidget { // extract? in this file ---
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  final _counter= 1.obs;
+  final RxInt _counter= 1.obs;
   String? _selectedColor;
   String? _selectedSize;
   CartListController controllerCLC = Get.find();
@@ -80,7 +80,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black.withOpacity(0.8),
                                 ),)),
-                              _buildCounter(), //-------------------------------------
+                              _buildCounter(), //---------------------------------------------------------
 
                             ],
                           ),
@@ -90,18 +90,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             fontWeight: FontWeight.w600,
                           ),),
                           const SizedBox(height: 8,),
-                          // ColorPicker(
-                          //   colors: const [
-                          //     Colors.black,
-                          //     Colors.red,
-                          //     Colors.amber,
-                          //     Colors.blue,
-                          //     Colors.purple,
-                          //   ],
-                          //   onColorSelected: (Color selectedColor) { // ------------------------------ ? function
-                          //     //print(selectedColor);
-                          //   },
-                          // ),
                           SizePicker(
                             sizes: colors,
                             onSizeSelected: (String c) {
@@ -145,8 +133,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-
-  Widget _buildAddToCartWidget(ProductDetailsModel productDetails) {
+  Widget _buildAddToCartWidget(ProductDetailsModel productDetails) { // Price + Add to Cart elevated button
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -159,7 +146,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildPriceWidget(productDetails),
+          _buildPriceWidget(productDetails), //---------------------------------
           SizedBox(
             width: 120,
             child: GetBuilder<AddToCartController>(
@@ -167,7 +154,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 if(addToCartController.inProgress){
                   return const CenteredCircularProgressIndicator();
                 }
-                return ElevatedButton(
+                return ElevatedButton( //---------------------------------------
                   onPressed: () {
                     CartModel cartModel = CartModel(
                       productId: widget.productId,
@@ -195,9 +182,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildPriceWidget(ProductDetailsModel productDetails) {
+  Widget _buildPriceWidget(ProductDetailsModel productDetails) { //------------------------------------------
     String itemTotalPrice(){
-      //double unitPrice = double.tryParse(productDetails.product?.price ??'0')??0; //price was string before
       double unitPrice = productDetails.product?.price ??0;
       return (_counter.value * unitPrice).toStringAsFixed(0);
     }
@@ -210,7 +196,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         Obx(()=>
             Text(
-              //'\$${(productDetails.product?.price ?? 0)* _counterValue.value}', // ------------- unit price ?
               itemTotalPrice(),
               style: const TextStyle(
                   fontSize: 24,
@@ -258,20 +243,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildCounter() { // ------------------------------------------------------------------------- do
-    return ItemCount( // --------------------------------------- package
-      initialValue: _counter.value,
-      minValue: 1,
-      maxValue: 20,
-      decimalPlaces: 0,
-      color: AppColors.primaryColor,
-      //textStyle: TextStyle(color: Colors.white),
-      onChanged: (value) {
-        print(value);
-        _counter.value = value as int;
-        setState(() {});
-      },
+  Widget _buildCounter() {
+    return Obx(
+        ()=> ItemCount( // ----------------------------------------------------- package
+          initialValue: _counter.value,
+          minValue: 1,
+          maxValue: 20,
+          decimalPlaces: 0,
+          color: AppColors.primaryColor,
+          onChanged: (value) {
+            print(value);
+            _counter.value = value as int;
+          },
+        ),
     );
+    //return
   }
 }
 

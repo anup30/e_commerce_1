@@ -17,7 +17,7 @@ class CartProductItem extends StatefulWidget {
 
 class _CartProductItemState extends State<CartProductItem> {
   //late int _counterValue;
-  final _counter = 1.obs;
+  final RxInt _counter = 1.obs;
   CartListController controllerCLC = Get.find();
 
   @override
@@ -62,6 +62,7 @@ class _CartProductItemState extends State<CartProductItem> {
               onPressed: () async{
                 bool result= await controllerCLC.deleteCartItem(widget.cartItem.productId!);
                 if(result){
+                  print("delete cart item: calling controllerCLC.setTotalPrice() from cart_product_item");
                   controllerCLC.setTotalPrice();
                   //setState(() {});  --------------------------------------------------
                 }
@@ -75,9 +76,9 @@ class _CartProductItemState extends State<CartProductItem> {
           children: [
             Obx(
               () => Text(
-                //'\$${widget.cartItem.product?.price ?? 0}', // ---------------
-                //'\$${(widget.cartItem.qty!) * (widget.cartItem.price!)}',
-                '\$${((_counter.value)*(widget.cartItem.price!)).toStringAsFixed(0)}',
+
+                //'\$${((_counter.value)*(widget.cartItem.price!)).toStringAsFixed(0)}', //-----------------
+                '\$${((_counter.value)*(widget.cartItem.product?.price! as double)).toStringAsFixed(0)}',
                 style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -118,9 +119,8 @@ class _CartProductItemState extends State<CartProductItem> {
       onChanged: (value) {
         print(value);
         _counter.value = value as int;
-        //widget.totalPrice = Get.find<CartListController>().totalPrice.obs;
-        setState(() {}); // ---------------------------------------------------------------------------
-        controllerCLC.changeProductQuantity(widget.cartItem.id!, _counter.value);
+        controllerCLC.changeProductQuantity(widget.cartItem.productId!, value);
+        print("value change cart item: calling controllerCLC.setTotalPrice() from cart_product_item");
         controllerCLC.setTotalPrice();
       },
     );
@@ -138,10 +138,11 @@ class _CartProductItemState extends State<CartProductItem> {
   Widget _buildProductImage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SvgPicture.asset( // ------------------------------------------------------------------ add product image
-        AssetsPath.shoeSvg,
-        width: 100,
-      ),
+      // child: SvgPicture.asset( // ------------------------------------------------------------------ add product image
+      //   AssetsPath.shoeSvg,
+      //   width: 100,
+      // ),
+      child: Image.network(widget.cartItem.product?.image?? '',fit: BoxFit.cover,height: 100,),
     );
   }
 }

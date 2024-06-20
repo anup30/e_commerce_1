@@ -38,10 +38,9 @@ class CartListController extends GetxController{
     totalPrice.value =0;
     for (CartItemModel cartItem in _cartList) {
       quantity= cartItem.qty!.toDouble();
-      //price= double.tryParse(cartItem.product?.price ?? '0') ?? 0; // was string before
-      price = cartItem.price ?? 0;
+      price = cartItem.product?.price ?? 0;
       totalPrice.value += (quantity*price);
-      print("quantity= $quantity, price= $price");
+      print("quantity= $quantity, unitPrice= $price");
       print("setTotalPrice(): totalPrice.value = ${totalPrice.value}");
     }
     update();
@@ -49,8 +48,13 @@ class CartListController extends GetxController{
   String get totalPriceFunc{
     return totalPrice.value.toStringAsFixed(0);
   }
-  void changeProductQuantity(int cartId, int quantity){
-    _cartList.firstWhere((c)=>c.id==cartId).qty == quantity; //------------------------------------------------------------
+  void changeProductQuantity(int productId, int quantity){ // cartId or productId ?
+    _cartList.firstWhere((item)=>item.productId==productId).qty = quantity; //------------------
+    print("in cart_list_controller, changeProductQuantity() :");
+    print("_cartList.length : ${_cartList.length}");
+    for(int i=0; i<_cartList.length; i++){
+      print("productId = ${_cartList[i].productId}, qty = ${_cartList[i].qty}");
+    }
     update();
   }
 

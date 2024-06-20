@@ -4,7 +4,7 @@ import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_ind
 import 'package:e_commerce_1/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//at 41: 00
+
 class WishListScreen extends StatefulWidget {
   const WishListScreen({super.key,});
 
