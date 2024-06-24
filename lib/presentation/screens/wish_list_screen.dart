@@ -48,17 +48,13 @@ class _WishListScreenState extends State<WishListScreen> {
                 itemCount: wishListController.wishList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 0.8,  // width/height
                 ),
                 itemBuilder: (context,index){
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 4, vertical: 2),
-                    child: FittedBox(
-                      child: ProductCard(
-                        showAddToWishList: false,
-                        product: wishListController.wishList[index].product!,
-                      ),
+                  return FittedBox(
+                    child: ProductCard(
+                      showAddToWishList: false,
+                      product: wishListController.wishList[index].product!,
                     ),
                   );
                 },

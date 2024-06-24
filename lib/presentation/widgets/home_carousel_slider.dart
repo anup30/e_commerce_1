@@ -28,7 +28,7 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
     );
   }
 
-  Widget _buildCarouselSlider() { /// CarouselSlider, return type
+  Widget _buildCarouselSlider() { // return type CarouselSlider
     return CarouselSlider(
       options: CarouselOptions(
           height: 180, // 150 -----------------------------
@@ -112,7 +112,7 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
     );
   }
 
-  Widget _buildDotIndicator() { /// ValueListenableBuilder<int>, return type
+  Widget _buildDotIndicator() { // return type ValueListenableBuilder<int>
     return ValueListenableBuilder(
       valueListenable: _selectedPageIndex,
       builder: (BuildContext context, currentPage, _) {
@@ -139,4 +139,4 @@ class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
     );
   }
 }
-// done without setState (use as less as possible) ----------------------------------------------------------
+// done without setState (use as less as possible) -------

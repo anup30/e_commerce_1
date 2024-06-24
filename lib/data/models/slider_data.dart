@@ -6,7 +6,6 @@ class SliderData {
   int? productId;
   String? createdAt;
   String? updatedAt;
-  // + price ------------------------------------------------------------------------ video 40:12
   String? price;
 
   SliderData(
@@ -17,7 +16,7 @@ class SliderData {
         this.productId,
         this.createdAt,
         this.updatedAt,
-        this.price='unknown', //--------------------------------
+        this.price='unknown',
       });
 
   SliderData.fromJson(Map<String, dynamic> json) {
@@ -28,19 +27,6 @@ class SliderData {
     productId = json['product_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    price = json['price']; //---------------------
+    price = json['price'];
   }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data['id'] = id;
-  //   data['title'] = title;
-  //   data['short_des'] = shortDes;
-  //   data['image'] = image;
-  //   data['product_id'] = productId;
-  //   data['created_at'] = createdAt;
-  //   data['updated_at'] = updatedAt;
-  //   data['price'] = price; //-----------------------------
-  //   return data;
-  // }
 }

@@ -4,6 +4,7 @@ import 'package:e_commerce_1/presentation/state_holders/cart_list_controller.dar
 import 'package:e_commerce_1/presentation/state_holders/category_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/complete_profile_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/home_slider_controller.dart';
+import 'package:e_commerce_1/presentation/state_holders/list_review_by_product_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/main_bottom_nav_bar_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/new_product_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/popular_product_list_controller.dart';
@@ -36,5 +37,6 @@ class ControllerBinder extends Bindings{
     Get.put(CartListController());
     Get.put(ReadProfileController());
     Get.put(CompleteProfileController());
+    Get.put(ListReviewByProductController());
   }
 }

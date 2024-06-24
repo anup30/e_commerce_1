@@ -1,5 +1,6 @@
 import 'package:e_commerce_1/data/models/cart_model.dart';
 import 'package:e_commerce_1/data/models/product_details_model.dart';
+import 'package:e_commerce_1/presentation/screens/reviews_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/add_to_wish_list_controller.dart';
 import 'package:e_commerce_1/presentation/state_holders/cart_list_controller.dart';
@@ -223,7 +224,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             Text('${productDetails.product?.star ?? 0}'),
           ],
         ),
-        TextButton(onPressed: () {}, child: const Text('Reviews')),
+        TextButton(
+            onPressed: () { //--------------------------------------------------------
+              Get.to(()=> ReviewsScreen(productId: widget.productId,));
+            },
+            child: const Text('Reviews'),
+        ),
         GetBuilder<AddToWishListController>(builder: (addToWishListController) {
           if (addToWishListController.inProgress) {
             return Transform.scale(
@@ -233,7 +239,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           }
           return WishButton(
             showAddToWishList: true,
-            //isSelected: false, // true /false -------------------------------------
+            isSelected :false,
             onTap: (){
               addToWishListController.addToWishList(widget.productId);
             },

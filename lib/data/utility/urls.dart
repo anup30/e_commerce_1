@@ -27,10 +27,16 @@ class Urls{
 
   static String createWishList(int productId) => '$_baseUrl/CreateWishList/$productId'; // {{BASE}}/CreateWishList/4 // add to wish list controller
 
+  static String removeWishList(int id) => '$_baseUrl/RemoveWishList/$id'; //{{BASE}}/RemoveWishList/1
+
+  static String listReviewByProduct(int id) => '$_baseUrl/ListReviewByProduct/$id'; //{{BASE}}/ListReviewByProduct/2
+
   static const String getWishList = '$_baseUrl/ProductWishList'; // {{BASE}}/ProductWishList
 
   static const String readProfile = '$_baseUrl/ReadProfile'; //{{BASE}}/ReadProfile +token in header
 
   static const String createProfile = '$_baseUrl/CreateProfile';
+
+
 
 }

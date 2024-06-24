@@ -33,27 +33,21 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: Column(
             children: [
               _buildSearchTextField(),
               const SizedBox(height: 16,),
-              Container( // ---> not needed ?
-                //width: 200,
-                //height: 200, //-----------------------------------
-                width: MediaQuery.of(context).size.width,
-                color: Colors.grey[100],
-                child: GetBuilder<HomeSliderController>( //------------
-                  builder: (sliderController) {
-                    if(sliderController.inProgress){
-                      return const SizedBox(
-                        height: 150, // ---------- adjust height
-                          child: CenteredCircularProgressIndicator(),
-                      );
-                    }
-                    return HomeCarouselSlider(sliderList: sliderController.sliderList);
+              GetBuilder<HomeSliderController>(
+                builder: (sliderController) {
+                  if(sliderController.inProgress){
+                    return const SizedBox(
+                      height: 180, // adjust height
+                        child: CenteredCircularProgressIndicator(),
+                    );
                   }
-                ),
+                  return HomeCarouselSlider(sliderList: sliderController.sliderList);
+                }
               ),
               const SizedBox(height: 16,),
               SectionHeader(title: 'All categories', onTapSeeAll: () {
@@ -77,20 +71,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (popularProductListController) {
                   if(popularProductListController.inProgress){
                     return const SizedBox(
-                      height: 230, // -------------------------------------- adjust height
+                      height: 230, // adjust height
                       child: CenteredCircularProgressIndicator(),
                     );
                   }
                   return _buildProductListView(popularProductListController.productList);
                 }
-              ), /// -------------------------------------------
+              ),
               const SizedBox(height: 8,),
               SectionHeader(title: 'Special', onTapSeeAll: () {},),
               GetBuilder<SpecialProductListController>(
                   builder: (specialProductListController) {
                     if(specialProductListController.inProgress){
                       return const SizedBox(
-                        height: 230, // -------------------------------------- adjust height
+                        height: 230, //  adjust height
                         child: CenteredCircularProgressIndicator(),
                       );
                     }
@@ -103,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (newProductListController) {
                     if(newProductListController.inProgress){
                       return const SizedBox(
-                        height: 230, // -------------------------------------- adjust height
+                        height: 230, // adjust height
                         child: CenteredCircularProgressIndicator(),
                       );
                     }
@@ -119,20 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildProductListView(List<Product> productList) {
-    // return SizedBox(
-    //   height: 230,
-    //   child: ListView.separated(
-    //     itemCount: productList.length,
-    //     scrollDirection: Axis.horizontal,
-    //     itemBuilder: (context, index) {
-    //       return ProductCard(product: productList[index],);
-    //     },
-    //     separatorBuilder: (context, index) {
-    //       return const SizedBox( width: 8,);
-    //     },
-    //   ),
-    // );
-    // ^ made it responsive:
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -142,20 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCategoryListView(List<Category> categoryList) {
-    // return SizedBox(
-    //           height: 120,
-    //           child: ListView.separated(
-    //             itemCount: categoryList.length,
-    //             scrollDirection: Axis.horizontal,
-    //             itemBuilder: (context, index) {
-    //               return CategoryItem(category: categoryList[index],);
-    //             },
-    //             separatorBuilder: (context, index) {
-    //               return const SizedBox( width: 16,);
-    //             },
-    //           ),
-    // );
-    // as responsive:
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -214,4 +180,4 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 }
-//at 27:30
+

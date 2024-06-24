@@ -4,7 +4,7 @@ import 'package:e_commerce_1/data/models/product_details_wrapper_model.dart';
 import 'package:e_commerce_1/data/network_caller/network_caller.dart';
 import 'package:e_commerce_1/data/utility/urls.dart';
 import 'package:get/get.dart';
-//at 35:00
+
 class ProductDetailsController extends GetxController {
   bool _inProgress = false;
   String _errorMessage = '';

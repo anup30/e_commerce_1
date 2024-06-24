@@ -1,7 +1,10 @@
 // refactor this widget
 import 'package:e_commerce_1/data/models/product.dart';
 import 'package:e_commerce_1/presentation/screens/product_details_screen.dart';
+import 'package:e_commerce_1/presentation/state_holders/wish_list_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
+import 'package:e_commerce_1/presentation/widgets/snack_message.dart';
+import 'package:e_commerce_1/presentation/widgets/wish_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,7 +31,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: SizedBox(
-          width: 130,
+          width: 150,
           child: Column(
             children: [
               Container(
@@ -64,25 +67,66 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                     Wrap(
-                      spacing: 12,
+                      spacing: 6,
                       alignment: WrapAlignment.start,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          '\$${product.price}',
+                          '\$${product.price?.toStringAsFixed(0)}',
                           style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primaryColor,
                         ),
                         ),
-                        Wrap(children: [
-                          const Icon(Icons.star,
-                            color: Colors.amber,
-                            size: 20,),
-                          Text('${product.star}'),
-                        ],),
+                        //const SizedBox(width: 4,), ///
+                        const Icon(Icons.star,
+                          color: Colors.amber,
+                          size: 18,),
+                        Text('${product.star}'),
+                        //const SizedBox(width: 4,), ///
+                        showAddToWishList? // --------------------------------------------
+                        Card(
+                          color: AppColors.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(2),
+                            child: Icon(Icons.favorite_outline, size: 14, color: Colors.white,),
+                          ),
+                        ):
+                        //WishButton(showAddToWishList: showAddToWishList,):
+                        InkWell(
+                          onTap: ()async{
+                            final result = await Get.find<WishListController>().removeWishList(product.id!); //---------------------------- productId ?
+                                 if(result && context.mounted){
+                                   showSnackMessage(context, "item removed from wishlist");
+                                 }
+                          },
+                          child: Card(
+                            color: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(2),
+                              child: Icon(Icons.delete_outline, size: 18, color: Colors.white,),
+                            ),
+                          ),
+
+                        ),
+
+
                         //const WishButton(showAddToWishList: showAddToWishList,), //-----------------------------------------
+
+                        // WishButton(
+                        //   showAddToWishList: false,
+                        //   //isSelected: false, // true /false -------------------------------------
+                        //   onTap: (){
+                        //     addToWishListController.addToWishList(widget.productId);
+                        //   },
+                        // )
                       ],
                     ),
                   ],
