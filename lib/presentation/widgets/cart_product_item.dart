@@ -1,9 +1,7 @@
 import 'package:e_commerce_1/data/models/cart_item_model.dart';
 import 'package:e_commerce_1/presentation/state_holders/cart_list_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
-import 'package:e_commerce_1/presentation/utility/assets_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
@@ -62,9 +60,7 @@ class _CartProductItemState extends State<CartProductItem> {
               onPressed: () async{
                 bool result= await controllerCLC.deleteCartItem(widget.cartItem.productId!);
                 if(result){
-                  print("delete cart item: calling controllerCLC.setTotalPrice() from cart_product_item");
                   controllerCLC.setTotalPrice();
-                  //setState(() {});  --------------------------------------------------
                 }
               },
               icon: const Icon(Icons.delete_outline_sharp),
@@ -76,8 +72,6 @@ class _CartProductItemState extends State<CartProductItem> {
           children: [
             Obx(
               () => Text(
-
-                //'\$${((_counter.value)*(widget.cartItem.price!)).toStringAsFixed(0)}', //-----------------
                 '\$${((_counter.value)*(widget.cartItem.product?.price! as double)).toStringAsFixed(0)}',
                 style: const TextStyle(
                     fontWeight: FontWeight.w600,
@@ -120,7 +114,6 @@ class _CartProductItemState extends State<CartProductItem> {
         print(value);
         _counter.value = value as int;
         controllerCLC.changeProductQuantity(widget.cartItem.productId!, value);
-        print("value change cart item: calling controllerCLC.setTotalPrice() from cart_product_item");
         controllerCLC.setTotalPrice();
       },
     );
@@ -138,11 +131,8 @@ class _CartProductItemState extends State<CartProductItem> {
   Widget _buildProductImage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      // child: SvgPicture.asset( // ------------------------------------------------------------------ add product image
-      //   AssetsPath.shoeSvg,
-      //   width: 100,
-      // ),
-      child: Image.network(widget.cartItem.product?.image?? '',fit: BoxFit.cover,height: 100,),
+      // child: SvgPicture.asset(AssetsPath.shoeSvg,width: 100,),
+      child: Image.network(widget.cartItem.product?.image?? '',height: 100,), // fit: BoxFit.cover
     );
   }
 }

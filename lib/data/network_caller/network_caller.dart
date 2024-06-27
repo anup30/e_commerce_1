@@ -55,8 +55,7 @@ class NetworkCaller {
   }
   static void _goToSignInScreen()async{  // handle 401, unauthorized
     // Navigator.push(CraftyBay.navigationKey.currentState!.context,
-    // MaterialPageRoute(builder: (context)=>const EmailVerificationScreen(),
-    // ));
+    // MaterialPageRoute(builder: (context)=>const EmailVerificationScreen(),));
     await UserAuthController.clearUserData(); // clear when u get 401 from add to cart button, expired.
     getx.Get.to(()=> const EmailVerificationScreen());
   }
@@ -66,7 +65,7 @@ class NetworkCaller {
     try{
       log("post request: $url");
       log("token = ${UserAuthController.accessToken}");
-      final http.Response response = await http.post( // getx or http ------------------
+      final http.Response response = await http.post( // getx / http
         Uri.parse(url),
         headers: {
           //'accept':'application/json',

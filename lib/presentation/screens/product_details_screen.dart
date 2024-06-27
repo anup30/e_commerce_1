@@ -28,10 +28,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   String? _selectedColor;
   String? _selectedSize;
   CartListController controllerCLC = Get.find();
-  //int _unitTotalPrice = _counterValue*unitPrice;
-  // double itemTotalPrice(){
-  //   return _counterValue.value * (productDetails.product?.price ?? 0);
-  // }
 
   @override
   void initState() {
@@ -41,7 +37,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Product Details"),),
+      appBar: AppBar(
+        title: const Text("Product Details"),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios_sharp),
+        ),
+      ),
       body: GetBuilder<ProductDetailsController>(
         builder: (productDetailsController) {
           if(productDetailsController.inProgress){
@@ -225,7 +229,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ],
         ),
         TextButton(
-            onPressed: () { //--------------------------------------------------------
+            onPressed: () {
               Get.to(()=> ReviewsScreen(productId: widget.productId,));
             },
             child: const Text('Reviews'),

@@ -37,6 +37,6 @@ class Urls{
 
   static const String createProfile = '$_baseUrl/CreateProfile';
 
-
+  static const String createProductReview = '$_baseUrl/CreateProductReview';
 
 }

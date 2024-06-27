@@ -1,6 +1,7 @@
 // e-commerce project, Crafty Bay
-// started 5.3.24, flutter version 3.19.2
-// module 23-26
+// module 23-27, started 5.3.24,
+// flutter version used 3.22.0
+
 import 'package:e_commerce_1/app.dart';
 import 'package:flutter/material.dart';
 
@@ -8,10 +9,17 @@ void main(){
   runApp(const CraftyBay());
 }
 
-// extract in product_details_screen ?
-// to do: countdown timer, in otp_verification_screen ( + see more in github of this page)
-// in otp_verification_screen see description(readProfile api -completeProfile/homeScreen) in github of this page)
+/*
+Complete the full project including-
+Assignment(*):
+1. Review list
+2. create review
+3. delete cart
+4. delete wishlist
+5. complete profile
+*/
 
+// extract in product_details_screen ?
 
 /*
   for internet permission of your app,
@@ -29,25 +37,9 @@ void main(){
     https://www.techtarget.com/searchapparchitecture/definition/application-architecture
     https://www.intellectsoft.net/blog/mobile-app-architecture/
     https://radixweb.com/blog/guide-to-mobile-app-architecture
-
-
 */
 
 /*
-* cached_network_image 3.3.1
-* A flutter library to show images from the internet and keep them in the cache directory.
-* */
-
-// wishList: unFavourite ? problem?
-
-// deleteCartItem in cart_list_controller
-
-/*
-Complete the full project including-
-Assignment(*):
-1. Review list
-2. create review
-3. delete cart
-4. delete wishlist
-5. complete profile
+  cached_network_image 3.3.1
+  A flutter library to show images from the internet and keep them in the cache directory.
 */

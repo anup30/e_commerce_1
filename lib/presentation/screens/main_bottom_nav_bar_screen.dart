@@ -54,7 +54,7 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
             type: BottomNavigationBarType.fixed,
             currentIndex: _navBarController.selectedIndex,
             //onTap: (index){_navBarController.changeIndex(index); },
-            onTap: _navBarController.changeIndex,
+            onTap: _navBarController.changeIndex, // sending index implicitly
             selectedItemColor: AppColors.primaryColor,
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,

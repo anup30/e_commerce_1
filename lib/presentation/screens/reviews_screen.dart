@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 class ReviewsScreen extends StatefulWidget {
   const ReviewsScreen({super.key, required this.productId});
+
   final int productId;
 
   @override
@@ -15,85 +16,110 @@ class ReviewsScreen extends StatefulWidget {
 
 class _ReviewsScreenState extends State<ReviewsScreen> {
   RxInt reviewCount = 0.obs;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp){
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getDataFromApis();
     });
   }
-  void _getDataFromApis() async{
-    await Get.find<ListReviewByProductController>().getListReviewByProduct(widget.productId);
-    reviewCount.value = Get.find<ListReviewByProductController>().reviewList.length;
+
+  Future<void> _getDataFromApis() async {
+    await Get.find<ListReviewByProductController>()
+        .getListReviewByProduct(widget.productId);
+    reviewCount.value =
+        Get.find<ListReviewByProductController>().reviewList.length;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Reviews"),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios_sharp),
+        ),
         elevation: 1,
       ),
       body: Column(
         children: [
           Expanded(
-              child: GetBuilder<ListReviewByProductController>(
-                  builder: (listReviewByProductController) {
-                    if(listReviewByProductController.inProgress){
-                      return const SizedBox(
-                        child: CenteredCircularProgressIndicator(),
-                      );
-                    }
-                    final list = listReviewByProductController.reviewList;
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: ListView.separated(
-                        itemCount: list.length,
-                          itemBuilder: (context,index){
-                          return  ListTile(
-                            leading: const Icon(Icons.person),
-                            title: Text('${list[index].profile?.cusName}'),
-                            subtitle: Text('review: ${list[index].description}'),
-                            tileColor: Colors.white,
-                          );
-                        },
-                        separatorBuilder: (context,index){
-                          return Divider( // eg. SizedBox(height: 20,);
-                            thickness: 1, // eats space, doesn't create new
-                            color: Colors.blueGrey.shade50,
-                            height: 5, // spacing height, creates new space
-                            indent: 40,
-                            endIndent: 40,
-                          );
-                        },
-                      ),
+            child: GetBuilder<ListReviewByProductController>(
+                builder: (listReviewByProductController) {
+              if (listReviewByProductController.inProgress) {
+                return const SizedBox(
+                  child: CenteredCircularProgressIndicator(),
+                );
+              }
+              final list = listReviewByProductController.reviewList;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: ListView.separated(
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: const Icon(Icons.person),
+                      title: Text('${list[index].profile?.cusName}'),
+                      subtitle: Text('review: ${list[index].description}'),
+                      tileColor: Colors.white,
                     );
-                  }
-              ),
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      thickness: 1,
+                      color: Colors.blueGrey.shade50,
+                      height: 5,
+                      indent: 40,
+                      endIndent: 40,
+                    );
+                  },
+                ),
+              );
+            }),
           ),
           Container(
-            color: AppColors.primaryColor.withOpacity(0.2),
             height: 80,
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor.withOpacity(0.2),
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20),
+              ),
+            ),
             child: Row(
               children: [
-                const SizedBox(width: 12,),
+                const SizedBox(
+                  width: 12,
+                ),
                 const Text("Reviews  "),
-                Obx(()=> Text("(${reviewCount.value})"),),
+                Obx(
+                  () => Text("(${reviewCount.value})"),
+                ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: (){
-                    Get.to(()=> const CreateReviewScreen()); // ---------------------------------  check if logged in
+                  onTap: ()async{
+                    bool x = await Get.to(() => CreateReviewScreen(productId: widget.productId,));
+                    if(x){
+                      _getDataFromApis();
+                    }
                   },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      color: AppColors.primaryColor,
-                      shape: BoxShape.circle,
+                  child: const CircleAvatar(
+                    backgroundColor: AppColors.primaryColor,
+                    radius: 20,
+                    child: Icon(
+                      Icons.add,
+                      size: 24,
+                      color: Colors.white,
                     ),
-                    child: const Icon(Icons.add, size: 24,color: Colors.white,),
                   ),
                 ),
-                const SizedBox(width: 12,),
+                const SizedBox(
+                  width: 12,
+                ),
               ],
             ),
           ),

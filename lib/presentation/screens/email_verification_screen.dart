@@ -43,9 +43,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     decoration: const InputDecoration(
                       hintText: 'Email',
                     ),
-                    //at 46:28
                     validator: (String? value){
-                      if(value?.isEmpty ??  true){
+                      if(value?.isEmpty ?? true){
                         return 'Enter your email';
                       }
                       else if(Constants.emailValidatorRegExp.hasMatch(value!)==false){ // -------------------> RegEx

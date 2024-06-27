@@ -3,17 +3,17 @@ import 'package:e_commerce_1/data/network_caller/network_caller.dart';
 import 'package:e_commerce_1/data/utility/urls.dart';
 import 'package:get/get.dart';
 
-class CompleteProfileController extends GetxController{
+class CreateProductReviewController extends GetxController{
   bool _inProgress = false;
   bool get inProgress => _inProgress;
   String _errorMessage='';
   String get errorMessage => _errorMessage;
-  Future<bool> completeProfile(Map<String,dynamic>? formData)async{
+  Future<bool> createProductReview(Map<String,dynamic>? formData)async{
     bool isSuccess = false;
     _inProgress=true;
     update();
     final NetworkResponse response = await NetworkCaller.postRequest(
-      url: Urls.createProfile,
+      url: Urls.createProductReview,
       formData: formData,
     );
     if(response.isSuccess){
