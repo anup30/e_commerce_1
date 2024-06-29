@@ -151,7 +151,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildPriceWidget(productDetails), //---------------------------------
+          _buildPriceWidget(productDetails), //--------
           SizedBox(
             width: 120,
             child: GetBuilder<AddToCartController>(
@@ -159,7 +159,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 if(addToCartController.inProgress){
                   return const CenteredCircularProgressIndicator();
                 }
-                return ElevatedButton( //---------------------------------------
+                return ElevatedButton( //-----------
                   onPressed: () {
                     CartModel cartModel = CartModel(
                       productId: widget.productId,
@@ -187,7 +187,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildPriceWidget(ProductDetailsModel productDetails) { //------------------------------------------
+  Widget _buildPriceWidget(ProductDetailsModel productDetails) { //-------------
     String itemTotalPrice(){
       double unitPrice = productDetails.product?.price ??0;
       return (_counter.value * unitPrice).toStringAsFixed(0);

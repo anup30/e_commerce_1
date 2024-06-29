@@ -26,7 +26,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("product list screen: ${widget.categoryName}"),),
+      appBar: AppBar(
+        title: Text("product list screen: ${widget.categoryName}"),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios_sharp),
+        ),
+      ),
       body: GetBuilder<ProductListByCategoryController>(
         builder: (productListByCategoryController) {
           if(productListByCategoryController.inProgress){

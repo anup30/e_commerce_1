@@ -43,12 +43,7 @@ class ProductCard extends StatelessWidget {
                     topRight: Radius.circular(8),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4), // 0
-                  child: Image.network(product.image?? '',fit: BoxFit.cover,),
-                  //child: Image.network(product.category?.categoryImg?? '',fit: BoxFit.cover,),
-                  //child: Image.network(product.brand?.brandImg ?? ''),
-                ),
+                child: Image.network(product.image?? '',fit: BoxFit.cover,),
               ),
               Padding( // -------------------------------> extract method ?
                 padding: const EdgeInsets.all(8),

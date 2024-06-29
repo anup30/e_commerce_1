@@ -22,7 +22,7 @@ class ProductDetailsController extends GetxController {
     update();
     final NetworkResponse response = await NetworkCaller.getRequest(
         url: Urls.productDetails(productId));
-    if (response.isSuccess) {
+    if (response.isSuccess && response.responseData["data"].isNotEmpty) { ///
       if (_errorMessage.isNotEmpty) { // if has previous error
         _errorMessage = '';
       }
@@ -31,7 +31,11 @@ class ProductDetailsController extends GetxController {
               .productDetails!
               .first; //--------------------------------------------------
     } else {
-      _errorMessage = response.errorMessage;
+      if(response.responseData["data"].isEmpty){
+        _errorMessage = "Data is Empty for this Product";
+      }else{
+        _errorMessage = response.errorMessage;
+      }
     }
     _inProgress = false;
     update();

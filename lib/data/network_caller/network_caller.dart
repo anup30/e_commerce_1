@@ -19,10 +19,10 @@ class NetworkCaller {
           'token': UserAuthController.accessToken
         },
       );
-      log(response.body);
+      log("response.body = ${response.body}");
       log(response.statusCode.toString());
       log(response.body.toString());
-      if(response.statusCode==200){
+      if(response.statusCode==200 ){ /// && response.body["data"].isNotEmpty
         final decodedData = jsonDecode(response.body);
         return NetworkResponse(
           responseCode: response.statusCode,
