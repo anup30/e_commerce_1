@@ -23,7 +23,7 @@ class SpecialProductListController extends GetxController {
     if (response.isSuccess) {
       _productList =
           ProductListModel.fromJson(response.responseData).productList ?? [];
-      print("Special productList length = ${_productList.length}");
+      //print("Special productList length = ${_productList.length}");
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;

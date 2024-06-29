@@ -24,7 +24,7 @@ class PopularProductListController extends GetxController {
     if (response.isSuccess) {
       _productList =
           ProductListModel.fromJson(response.responseData).productList ?? [];
-      print("popular productList length = ${_productList.length}");
+      //print("popular productList length = ${_productList.length}");
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;

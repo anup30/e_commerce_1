@@ -1,4 +1,3 @@
-import 'package:e_commerce_1/presentation/screens/home_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/complete_profile_controller.dart';
 import 'package:e_commerce_1/presentation/widgets/app_logo.dart';
 import 'package:e_commerce_1/presentation/widgets/centered_circular_progress_indicator.dart';

@@ -14,7 +14,6 @@ class CartProductItem extends StatefulWidget {
 }
 
 class _CartProductItemState extends State<CartProductItem> {
-  //late int _counterValue;
   final RxInt _counter = 1.obs;
   CartListController controllerCLC = Get.find();
 
@@ -32,11 +31,11 @@ class _CartProductItemState extends State<CartProductItem> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
         children: [
-          _buildProductImage(), // -----
+          _buildProductImage(),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _buildProductDetails(), // -----
+              child: _buildProductDetails(),
             ),
           ),
         ],
@@ -111,7 +110,7 @@ class _CartProductItemState extends State<CartProductItem> {
       color: AppColors.primaryColor,
       //textStyle: TextStyle(color: Colors.white),
       onChanged: (value) {
-        print(value);
+        //print(value);
         _counter.value = value as int;
         controllerCLC.changeProductQuantity(widget.cartItem.productId!, value);
         controllerCLC.setTotalPrice();

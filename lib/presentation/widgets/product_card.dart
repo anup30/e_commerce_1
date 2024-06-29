@@ -4,7 +4,6 @@ import 'package:e_commerce_1/presentation/screens/product_details_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/wish_list_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
 import 'package:e_commerce_1/presentation/widgets/snack_message.dart';
-import 'package:e_commerce_1/presentation/widgets/wish_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -262,7 +262,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           decimalPlaces: 0,
           color: AppColors.primaryColor,
           onChanged: (value) {
-            print(value);
+            //print(value);
             _counter.value = value as int;
           },
         ),
