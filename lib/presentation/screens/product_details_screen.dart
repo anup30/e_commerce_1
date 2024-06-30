@@ -236,7 +236,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         GetBuilder<AddToWishListController>(builder: (addToWishListController) {
           if (addToWishListController.inProgress) {
-            return Transform.scale(
+            return Transform.scale( //------------------------------------------
               scale: 0.4,
               child: const CircularProgressIndicator(),
             );
@@ -244,8 +244,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           return WishButton(
             showAddToWishList: true,
             isSelected :false,
-            onTap: (){
-              addToWishListController.addToWishList(widget.productId);
+            onTap: ()async{
+              final bool result = await addToWishListController.addToWishList(widget.productId);
+              if(result && mounted){
+                showSnackMessage(context, "Item added to Wish list.");
+              }
             },
           );
         }),
