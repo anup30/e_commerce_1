@@ -3,7 +3,6 @@ import 'package:e_commerce_1/data/models/product.dart';
 import 'package:e_commerce_1/presentation/screens/product_details_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/wish_list_controller.dart';
 import 'package:e_commerce_1/presentation/utility/app_colors.dart';
-import 'package:e_commerce_1/presentation/widgets/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -93,10 +92,18 @@ class ProductCard extends StatelessWidget {
                         //WishButton(showAddToWishList: showAddToWishList,):
                         InkWell(
                           onTap: ()async{
-                            final result = await Get.find<WishListController>().removeWishList(product.id!); //---------------------------- productId ?
-                                 if(result && context.mounted){
-                                   showSnackMessage(context, "item removed from wishlist");
-                                 }
+                            final result = await Get.find<WishListController>().removeWishList(product.id!);
+                              // if(result && context.mounted){showSnackMessage(context, "item removed from wishlist");}
+                              if(result){
+                                Get.snackbar(
+                                  "Removed",
+                                  "Item removed from Wishlist",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.white,
+                                  colorText: Colors.black,
+                                  duration: const Duration(seconds: 4),
+                                );
+                              }
                           },
                           child: Card(
                             color: AppColors.primaryColor,

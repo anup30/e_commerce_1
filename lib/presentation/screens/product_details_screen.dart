@@ -248,6 +248,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               final bool result = await addToWishListController.addToWishList(widget.productId);
               if(result && mounted){
                 showSnackMessage(context, "Item added to Wish list.");
+                //isSelected =true;
               }
             },
           );
