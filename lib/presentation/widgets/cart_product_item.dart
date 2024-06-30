@@ -60,6 +60,14 @@ class _CartProductItemState extends State<CartProductItem> {
                 bool result= await controllerCLC.deleteCartItem(widget.cartItem.productId!);
                 if(result){
                   controllerCLC.setTotalPrice();
+                  Get.snackbar(
+                    "Removed",
+                    "Item removed from Cart List",
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.white,
+                    colorText: Colors.black,
+                    duration: const Duration(seconds: 4),
+                  );
                 }
               },
               icon: const Icon(Icons.delete_outline_sharp),

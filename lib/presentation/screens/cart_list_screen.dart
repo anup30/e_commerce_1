@@ -86,7 +86,16 @@ class _CartListScreenState extends State<CartListScreen> {
           SizedBox(
             width: 100,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.snackbar(
+                  "Thank You",
+                  "Thank you for shopping with us",
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.white,
+                  colorText: Colors.black,
+                  duration: const Duration(seconds: 4),
+                );
+              },
               child: const Text('Checkout'),
             ),
           )
