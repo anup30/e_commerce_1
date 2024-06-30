@@ -4,6 +4,7 @@ import 'package:e_commerce_1/data/models/network_response.dart';
 import 'package:e_commerce_1/presentation/screens/email_verification_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/user_auth_controller.dart';
 import 'package:get/get.dart' as getx;
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkCaller {
@@ -30,6 +31,11 @@ class NetworkCaller {
           responseData: decodedData,
         );
       }else if(response.statusCode==401){
+        Get.snackbar(
+          "Log In",
+          "you have to be logged-in for the procedure.",
+          duration: const Duration(seconds: 5),
+        );
         if(!fromAuth){
           _goToSignInScreen();
         }

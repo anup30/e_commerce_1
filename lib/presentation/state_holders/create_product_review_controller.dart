@@ -22,11 +22,6 @@ class CreateProductReviewController extends GetxController{
       }
     }else{
       _errorMessage = response.errorMessage;
-      Get.snackbar(
-        _errorMessage,
-        "try again later",
-        duration: const Duration(seconds: 5),
-      );
     }
     _inProgress=false;
     update();
