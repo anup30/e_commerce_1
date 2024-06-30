@@ -1,4 +1,3 @@
-// refactor this widget
 import 'package:e_commerce_1/data/models/product.dart';
 import 'package:e_commerce_1/presentation/screens/product_details_screen.dart';
 import 'package:e_commerce_1/presentation/state_holders/wish_list_controller.dart';
@@ -117,17 +116,6 @@ class ProductCard extends StatelessWidget {
                           ),
 
                         ),
-
-
-                        //const WishButton(showAddToWishList: showAddToWishList,), //-----------------------------------------
-
-                        // WishButton(
-                        //   showAddToWishList: false,
-                        //   //isSelected: false, // true /false -------------------------------------
-                        //   onTap: (){
-                        //     addToWishListController.addToWishList(widget.productId);
-                        //   },
-                        // )
                       ],
                     ),
                   ],
