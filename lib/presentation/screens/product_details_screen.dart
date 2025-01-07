@@ -170,7 +170,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     addToCartController.addToCart(cartModel).then((result){
                       if(result){
                         showSnackMessage(context, 'Added to cart');
-
                         controllerCLC.setTotalPrice();
                       }else{
                         showSnackMessage(context, addToCartController.errorMessage);

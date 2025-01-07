@@ -16,16 +16,16 @@ class CraftyBay extends StatefulWidget {
 class _CraftyBayState extends State<CraftyBay> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp( // -----------------------------
-      navigatorKey: CraftyBay.navigationKey,
+    return GetMaterialApp( // ---
       home: const SplashScreen(),
-      initialBinding: ControllerBinder(), //-----------------------
+      navigatorKey: CraftyBay.navigationKey, // ---
+      initialBinding: ControllerBinder(), // ---
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
+        colorSchemeSeed: AppColors.primaryColor,
         //primaryColor: Colors.red, // cos colorSchemeSeed used
         //primarySwatch: Colors.green, // off material3, then this works for C.P.I., only 1 of this and colorSchemeSeed
-        colorSchemeSeed: AppColors.primaryColor,
         progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: AppColors.primaryColor,
         ),
@@ -42,18 +42,18 @@ class _CraftyBayState extends State<CraftyBay> {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData( // extract -----------------
           style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primaryColor,
+            foregroundColor: Colors.white,
+            textStyle: const TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+            ),
             //maximumSize: ,
             //minimumSize: ,
             fixedSize: const Size.fromWidth(double.maxFinite), ///
             padding: const EdgeInsets.symmetric(vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
-            ),
-            backgroundColor: AppColors.primaryColor,
-            foregroundColor: Colors.white,
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
             ),
           ),
         ),
